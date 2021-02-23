@@ -35,11 +35,12 @@ public class Pattern {
 	
 	public void printPatternTwo() {
 		int numberOfLines = 5;
+		int startAt = 0;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line == 1) {
-				printChars('-', 0, 2 * numberOfLines);
+				printChars('-', startAt, 2 * numberOfLines);
 			}else {
-				printChars('*', 0, numberOfLines - line + 1);
+				printChars('*', startAt, numberOfLines - line + 1);
 				
 			}
 			System.out.println();
