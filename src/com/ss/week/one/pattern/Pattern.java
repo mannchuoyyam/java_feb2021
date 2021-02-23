@@ -54,7 +54,7 @@ public class Pattern {
 		int startAt = 5;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line == numberOfLines) {
-				printChars('-', startAt--, 11);
+				printChars('-', 0, 11);
 			}else {
 				printChars('*', startAt--, (2 * line) - 1);
 				
@@ -66,11 +66,18 @@ public class Pattern {
 	
 	public void printPatternFour() {
 		System.out.println("4)");
-		System.out.println("-----------");
-		System.out.println("  *******  ");
-		System.out.println("   *****   ");
-		System.out.println("    ***    ");
-		System.out.println("     *     ");
+		int numberOfLines = 5;
+		int startAt = 2;
+		for(int line = 1; line <= numberOfLines; ++line) {
+			if(line == 1) {
+				printChars('-', 0, 11);
+			}else {
+				printChars('*', startAt++, (2 * (numberOfLines - line)) + 1);
+				
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 	
 	public static void main(String[] args) {
