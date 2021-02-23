@@ -19,13 +19,13 @@ public class Pattern {
 		}
 	}
 	public void printPatternOne() {
-		System.out.println("1)");
 		int numberOfLines = 5;
+		int startAt = 0;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line != 5) {
-				printChars('*', 0, line);
+				printChars('*', startAt, line);
 			}else {
-				printChars('-', 0, 9);
+				printChars('-', startAt, (2 * numberOfLines) - 1);
 				
 			}
 			System.out.println();
@@ -34,11 +34,10 @@ public class Pattern {
 	}
 	
 	public void printPatternTwo() {
-		System.out.println("2)");
 		int numberOfLines = 5;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line == 1) {
-				printChars('-', 0, 10);
+				printChars('-', 0, 2 * numberOfLines);
 			}else {
 				printChars('*', 0, numberOfLines - line + 1);
 				
@@ -49,12 +48,11 @@ public class Pattern {
 	}
 	
 	public void printPatternThree() {
-		System.out.println("3)");
 		int numberOfLines = 5;
 		int startAt = 5;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line == numberOfLines) {
-				printChars('-', 0, 11);
+				printChars('-', 0, (2 * numberOfLines + 1));
 			}else {
 				printChars('*', startAt--, (2 * line) - 1);
 				
@@ -65,12 +63,11 @@ public class Pattern {
 	}
 	
 	public void printPatternFour() {
-		System.out.println("4)");
 		int numberOfLines = 5;
 		int startAt = 2;
 		for(int line = 1; line <= numberOfLines; ++line) {
 			if(line == 1) {
-				printChars('-', 0, 11);
+				printChars('-', 0, (2 * numberOfLines) + 1);
 			}else {
 				printChars('*', startAt++, (2 * (numberOfLines - line)) + 1);
 				
@@ -83,13 +80,27 @@ public class Pattern {
 	public static void main(String[] args) {
 		Pattern pattern = new Pattern();
 		
-		pattern.printPatternOne();
-		
-		pattern.printPatternTwo();
-		
-		pattern.printPatternThree();
-		
-		pattern.printPatternFour();
+		int numberOfPatterns = 4;
+		for(int i = 1; i <= numberOfPatterns; ++i) {
+			System.out.println(i + ")");
+			switch(i) {
+			case 1:
+				pattern.printPatternOne();
+				break;
+			case 2:
+				pattern.printPatternTwo();
+				break;
+			case 3:
+				pattern.printPatternThree();
+				break;
+			case 4:
+				pattern.printPatternFour();
+				break;
+			default:
+				System.out.println("No Patterns");
+				break;
+			}
+		}
 	}
 }
 
