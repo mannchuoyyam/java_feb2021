@@ -15,6 +15,7 @@ import java.io.IOException;
  *
  */
 public class StringCounter {
+	private static final Integer NOT_FOUND_INDEX = -1;
 	
 	public static Integer countStringOccurrences(String stringToBeCounted, String fileName) {
 		Integer numberOfOccurences = 0;
@@ -23,7 +24,7 @@ public class StringCounter {
 			String line;
 			while( (line = inputStream.readLine()) != null) {
 				Integer index = line.indexOf(stringToBeCounted);
-				while(index != -1) {
+				while(index != NOT_FOUND_INDEX) {
 					numberOfOccurences++;
 					index = line.indexOf(stringToBeCounted, index + stringToBeCounted.length());
 				}
