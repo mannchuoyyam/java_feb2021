@@ -11,11 +11,15 @@ import java.util.LinkedList;
 /**
  * @author Mannchuoy Yam
  *
+ * Class Restaurant implements two methods.
+ * takeOrder add order number to the list and wait if the list is full
+ * makeOrder get order number from the list and wait if the list is empty
  */
 public class Restaurant {
 	private LinkedList<Integer> order = new LinkedList<>();
 	private final Integer MAX_ORDER = 5;
-
+	private final Integer SLEEP_DURATION = 1000;
+	
 	public void takeOrder() {
 		Integer orderNumber = 0;
 		while (true) {
@@ -30,14 +34,13 @@ public class Restaurant {
 				System.out.println("Adding order number: " + orderNumber);
 				order.add(orderNumber++);
 
-				this.notify();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				this.notifyAll();
 			}
-
+			try {
+				Thread.sleep(SLEEP_DURATION);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -55,13 +58,12 @@ public class Restaurant {
 				Integer orderNumber = order.removeFirst();
 				System.out.println(">>> Start making order number: " + orderNumber);
 
-				this.notify();
-
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				this.notifyAll();
+			}
+			try {
+				Thread.sleep(SLEEP_DURATION);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
