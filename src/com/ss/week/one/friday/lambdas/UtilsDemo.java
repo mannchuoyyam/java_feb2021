@@ -6,7 +6,6 @@
  */
 package com.ss.week.one.friday.lambdas;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
