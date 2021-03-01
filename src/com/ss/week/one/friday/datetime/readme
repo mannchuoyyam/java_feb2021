@@ -1,0 +1,23 @@
+1. Which class would you use to store your birthday in years, months, days, seconds, and nanoseconds?
+LocalDateTime or ZoneDateTime
+
+2. Given a random date, how would you find the date of the previous Thursday?
+LocalDate previousThursday = date.with(TemporalAdjusters.previous(DayOfWeek.THURSDAY));
+
+3. What is the difference between a ZoneId and a ZoneOffset?
+ZoneId: fix
+ZoneOffset: variable
+
+4. How would you convert an Instant to a ZonedDateTime?
+How would you convert a ZonedDateTime to an Instant?
+instant.atZone(ZoneId.of("Asia/Tokyo"))
+Instant.from(ZonedDateTime)
+
+5. Write an example that, for a given year, reports the length of each month within that year.
+displayLengthOfEachMonthIn() in DateUtils.java
+
+6. Write an example that, for a given month of the current year, lists all of the Mondays in that month.
+listAllMondaysIn() in DateUtils.java
+
+7 Write an example that tests whether a given date occurs on Friday the 13th.
+testFridayTheThirdteen() in DateUtils.java
