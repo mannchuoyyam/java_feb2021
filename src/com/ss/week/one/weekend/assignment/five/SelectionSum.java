@@ -30,30 +30,21 @@ public class SelectionSum {
 					break;
 				}
 			}
-
+			// is possible to get the sum
 			if (sum == answer) {
 				return true;
 			} else {
-				if (nextIndex > 1) {
-					if (!groupSumClump(sum, inputs.subList(nextIndex, inputs.size()), answer)) {
-						sum -= sumOfSameAdjacentNumber;
-						return groupSumClump(sum, inputs.subList(nextIndex, inputs.size()), answer);
-					} else {
-						return true;
-					} 
-				} else {
-					Boolean isPossibleToFindTheAnswer = false;
-					for(int k = 1; k < inputs.size(); ++k) {
-						if(groupSumClump(sum, inputs.subList(k, inputs.size()), answer)) {
-							isPossibleToFindTheAnswer = true;
-							break;
-						}
-					}
-					if(isPossibleToFindTheAnswer) {
-						return true;
-					}
-					return groupSumClump(0, inputs.subList(1, inputs.size()), answer);
+				// adding the next element with new sum
+				if(groupSumClump(sum, inputs.subList(nextIndex, inputs.size()), answer)) {
+					return true;
 				}
+				// remove the last element or same adjacent numbers
+				// start adding again
+				sum -= sumOfSameAdjacentNumber;
+				if(groupSumClump(sum, inputs.subList(nextIndex, inputs.size()), answer)) {
+					return true;
+				}
+				return false;
 			}
 		}
 	}
