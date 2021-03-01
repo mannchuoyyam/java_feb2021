@@ -6,17 +6,15 @@
  */
 package com.ss.week.one.weekend.assignment.one;
 
-import java.util.function.Function;
-
 /**
  * @author Mannchuoy Yam
  *
  */
 public class NumberTest {
-	// define lambda functions isOdd, isPrime, and isPalindrome 
-	public Function<Integer, String> isOdd = (number) -> number % 2 == 0 ? "EVEN" : "ODD";
 	
-	public Function<Integer, String> isPrime = (number) -> {
+	public PerformOperation isOdd = (number) -> number % 2 == 0 ? "EVEN" : "ODD";
+	
+	public PerformOperation isPrime = (number) -> {
 		Boolean isPrimeNumber = true;
 		
 		for(int i = 2; i <= number / 2; ++i) {
@@ -29,7 +27,7 @@ public class NumberTest {
 		return isPrimeNumber ? "PRIME" : "COMPOSITE";
 	};
 	
-	public Function<Integer, String> isPalindrome = (number) -> {
+	public PerformOperation isPalindrome = (number) -> {
 		String numbers = String.valueOf(number);
 		Boolean isPalindromeNumber = true;
 		
