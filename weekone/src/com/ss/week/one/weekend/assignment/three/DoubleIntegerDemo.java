@@ -7,7 +7,6 @@
 package com.ss.week.one.weekend.assignment.three;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Mannchuoy Yam
@@ -22,11 +21,11 @@ public class DoubleIntegerDemo {
 		
 		DoubleInteger doubleInteger = new DoubleInteger();
 		
-		List<Integer> inputs = Arrays.asList(1, 30, 77, 99, 1010, 20045);
+		Integer[] inputs = {1, 30, 77, 99, 1010, 20045};
 		
-		List<Integer> results = doubleInteger.doubling(inputs);
+		Integer[]results = doubleInteger.doubling(inputs);
 		
-		System.out.println(results);
+		System.out.println(Arrays.toString(results));
 	}
 
 }

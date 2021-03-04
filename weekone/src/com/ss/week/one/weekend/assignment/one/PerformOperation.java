@@ -10,7 +10,7 @@ package com.ss.week.one.weekend.assignment.one;
  * @author Mannchuoy Yam
  *
  */
-
+@FunctionalInterface
 public interface PerformOperation {
 	String apply(Integer number);
 }

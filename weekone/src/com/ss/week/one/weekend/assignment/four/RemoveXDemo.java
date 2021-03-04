@@ -21,11 +21,11 @@ public class RemoveXDemo {
 	public static void main(String[] args) {
 		RemoveX removeX = new RemoveX();
 		
-		List<String> inputs = Arrays.asList("ax", "bb", "cx", "xxax", "xxxx", "xbxbx", "xxcx");
+		String[] inputs = {"ax", "bb", "cx", "xxax", "xxxx", "xbxbx", "xxcx"};
 		
-		List<String> results = removeX.removeXs(inputs);
+		String[] results = removeX.removeXs(inputs);
 		
-		System.out.println(results);
+		System.out.println(Arrays.toString(results));
 
 	}
 
