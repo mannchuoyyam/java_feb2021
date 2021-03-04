@@ -30,8 +30,10 @@ public class Login extends HttpServlet{
 	private Hashtable<String, String> users = new Hashtable<String, String>();
 	
 	private final String loginForm = "<form action=\"\" method=\"POST\">"
-			+ "Username: <input type = \"text\" name = \"user_name\"/><br>"
-			+ "Password: <input type = \"password\" name = \"password\"/><br>"
+			+ "<label for=\"username\">Username:</label><br>"
+			+ "<input type = \"text\" name = \"user_name\"/><br>"
+			+ "<label for=\"password\">Password:</label><br>"
+			+ "<input type = \"password\" name = \"password\"/><br><br>"
 			+ "<input type=\"submit\" value=\"Login\" /></form>";
 	
 	public Login() {
