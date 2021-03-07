@@ -3,13 +3,18 @@
  */
 package com.mannchuoy.menu;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import com.mannchuoy.dao.AirportDao;
 import com.mannchuoy.entity.Airport;
+import com.mannchuoy.entity.Flight;
+import com.mannchuoy.service.AdminService;
 
 /**
  * @author Mannchuoy Yam
@@ -56,7 +61,7 @@ public class Menu {
 		default:
 			break;
 		}
-		
+
 		return appExit;
 	}
 
@@ -97,72 +102,92 @@ public class Menu {
 	}
 
 	private void showFlightMenus() {
-		println("What would you like to do with flights?");
 		String[] crudMenu = { "Add", "Update", "Delete", "Read", "Go to previous" };
 
-		int option = validateAndGetOption(crudMenu);
+		int option = 0;
+		AdminService adminService = new AdminService();
 
-		switch (option) {
-		case 1:
-			break;
-		case 2:
+		Flight flight = new Flight();
+		Airport origin = new Airport();
+		Airport destination = new Airport();
 
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			showAdmininstratorMainMenu();
-			break;
+		origin.setId("LBG");
+		origin.setCity("Long Beach");
+		
+		destination.setId("JFK");
+		destination.setCity("New York");
+		
+		flight.setId(100);
+		flight.setPlaneId(1);
+		flight.setDepartureTime(LocalDateTime.of(2021, 03, 1, 10, 30, 0));
+		flight.setReservedSeats(50);
+		flight.setSeatPrice(100.0f);
+		
+		do {
+			println("What would you like to do with flights?");
+			option = validateAndGetOption(crudMenu);
+			try {
+				switch (option) {
+				case 1:
+					adminService.addFlight(origin, destination, flight);
+					break;
+				case 2:
 
-		default:
-			break;
-		}
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+
+				default:
+					break;
+				}
+			} catch (SQLException e) {
+
+			}
+		} while (option != 5);
 	}
 
 	private void showAirportMenus() {
 		String[] crudMenu = { "Add", "Update", "Delete", "Read", "Go to previous" };
 
 		int option = 0;
+		Airport airport = new Airport();
+		airport.setId("sna");
+		airport.setCity("Santa Ana");
+
+		AdminService adminService = new AdminService();
+
 		do {
 			println("What would you like to do with Airports?");
 			option = validateAndGetOption(crudMenu);
 
-			Airport airport = new Airport();
-			airport.setId("sna");
-			airport.setCity("Santa Ana");
-
-			AirportDao airportDao = new AirportDao();
-
-			switch (option) {
-			case 1:
-				try {
-					airportDao.addAirport(airport);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			try {
+				switch (option) {
+				case 1:
+					adminService.addAirport(airport);
+					break;
+				case 2:
+					adminService.updateAirport(airport);
+					break;
+				case 3:
+					adminService.deleteAirport(airport);
+					break;
+				case 4:
+					List<Airport> airports = adminService.listAirports();
+					airports.stream().forEach(e -> {
+						println("Code: " + e.getId() + " City: " + e.getCity());
+					});
+					break;
+				case 5:
+					break;
+				default:
+					break;
 				}
-				break;
-			case 2:
+			} catch (SQLException e) {
 
-				break;
-			case 3:
-				break;
-			case 4:
-				try {
-					List<Airport> airports = airportDao.listAirport();
-					airports.stream().forEach(e -> System.out.println("id: " + e.getId() + " City: " + e.getCity()));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			case 5:
-				break;
-
-			default:
-				break;
 			}
 		} while (option != 5);
 	}
