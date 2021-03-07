@@ -26,18 +26,31 @@ public abstract class BaseDao<T> {
 		this.connection = connection;
 	}
 	
-	public Integer save(String sql, Object[] fields) throws SQLException{
-		int rowsAffected = 0;
-		
+	private PreparedStatement getPreparedStatement(String sql, Object[] fields) throws SQLException{
 		PreparedStatement statement = connection.prepareStatement(sql);
 		int placeholder = 1;
 		for (Object field : fields) {
 			statement.setObject(placeholder, field);
 			placeholder++;
 		}
+		return statement;
+	}
+	
+	public Integer save(String sql, Object[] fields) throws SQLException{
+		int rowsAffected = 0;
+		
+		PreparedStatement statement = getPreparedStatement(sql, fields);
 
 		rowsAffected = statement.executeUpdate();
 		return rowsAffected;
+	}
+	
+	/* use for INSERT, UPDATE, DELETE statement
+	 * @return number of affected rows
+	 */
+	public Integer addWithExecuteUpdate(String sql, Object[] fields) throws SQLException{
+		PreparedStatement statement = getPreparedStatement(sql, fields);
+		return statement.executeUpdate();
 	}
 	
 	public Integer addAndGetGeneratedKey(String sql, Object[] fields) throws SQLException{
@@ -57,11 +70,11 @@ public abstract class BaseDao<T> {
 	}
 	
 	public Integer update(String sql, Object[] fields) throws SQLException{
-		return save(sql, fields);
+		return addWithExecuteUpdate(sql, fields);
 	}
 	
 	public Integer delete(String sql, Object[] fields) throws SQLException{
-		return save(sql, fields);
+		return addWithExecuteUpdate(sql, fields);
 	}
 	
 	public List<T> read(String sql, Object[] fields) throws SQLException{
