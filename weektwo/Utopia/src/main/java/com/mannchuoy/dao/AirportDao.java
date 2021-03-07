@@ -1,8 +1,13 @@
 /**
+ *  Java_feb2021 Corhot
+ *  Week 2 Evaluation
+ *  Assignment: Utopia Airline
+ *  Date: 3/6/21 - 3/8/21
  * 
  */
 package com.mannchuoy.dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,11 +17,15 @@ import com.mannchuoy.entity.Airport;
 
 /**
  * @author Mannchuoy Yam
- *
+ * class AirportDao is DAO for airport table in the database
  */
 public class AirportDao extends BaseDao<Airport> {
-	public int addAirport(Airport airport) throws SQLException {
-		return save("INSERT INTO airport VALUES(?, ?)", new Object[] {airport.getId(), airport.getCity()});
+	public AirportDao(Connection connection) {
+		super(connection);
+	}
+
+	public boolean addAirport(Airport airport) throws SQLException {
+		return add("INSERT INTO airport VALUES(?, ?)", new Object[] {airport.getId(), airport.getCity()});
 	}
 	
 	public int updateAirport(Airport airport) throws SQLException{
@@ -25,8 +34,12 @@ public class AirportDao extends BaseDao<Airport> {
 	}
 	
 	public int deleteAirport(Airport airport) throws SQLException{
-		return delete("DELECT FROM airport WHERE iata_id = ?",
-				new Object[] {airport.getCity()});
+		return delete("DELETE FROM airport WHERE iata_id = ?",
+				new Object[] {airport.getId()});
+	}
+	
+	public List<Airport> retrieveAirport(Airport airport) throws SQLException {
+		return read("SELECT * FROM airport WHERE iata_id = ?", new Object[] {airport.getId()});
 	}
 	
 	public List<Airport> listAirport() throws SQLException {

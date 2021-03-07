@@ -45,6 +45,11 @@ public abstract class BaseDao<T> {
 		return rowsAffected;
 	}
 	
+	public boolean add(String sql, Object[] fields) throws SQLException{
+		PreparedStatement statement = getPreparedStatement(sql, fields);
+		return statement.execute();
+	}
+	
 	/* use for INSERT, UPDATE, DELETE statement
 	 * @return number of affected rows
 	 */
