@@ -126,36 +126,15 @@ public class AdminService {
 			int routeId = getFlightRouteId(origin, destination, flight, connection);
 			
 			flight.setRouteId(routeId);
-//			// check if origin and destination exist
-//			AirportDao airportDao = new AirportDao(connection);
-//
-//			List<Airport> airports = airportDao.read("SELECT * FROM airport WHERE iata_id = ?",
-//					new Object[] { origin.getId() });
-//			if (airports.size() == 0) {
-//				airportDao.addAirport(origin);
-//			}
-//			airports = airportDao.read("SELECT * FROM airport WHERE iata_id = ?", new Object[] { destination.getId() });
-//			if (airports.size() == 0) {
-//				airportDao.addAirport(destination);
-//			}
-//
-//			RouteDao routeDao = new RouteDao(connection);
-//			List<Route> routes = routeDao.read("SELECT * FROM route WHERE origin_id = ? AND destination_id = ?",
-//					new Object[] { origin.getId(), destination.getId() });
-//			if (routes.size() == 0) {
-//				Route route = new Route();
-//				route.setOriginId(origin.getId());
-//				route.setDestinationId(destination.getId());
-//				int key = routeDao.addRouteAndGetPrimaryKey(route);
-//				flight.setRouteId(key);
-//			} else {
-//				flight.setRouteId(routes.get(0).getId());
-//			}
-//
+
 			FlightDao flightDao = new FlightDao(connection);
 			flightDao.addFlight(flight);
 
 			connection.commit();
+			if(flightDao.findFlightById(flight.getId()) != null) {
+				System.out.println("Flight id: " + flight.getId() + " has been added.\n");
+			}
+			
 		} catch (SQLException e) {
 			connection.rollback();
 			e.printStackTrace();
@@ -179,9 +158,9 @@ public class AdminService {
 			connection.commit();
 			
 			if(affectedRows > 0) {
-				System.out.printf("\n>>>>>>The flight is updated successfully.<<<<<<<\n");
+				System.out.println(">>>>>>The flight is updated successfully.<<<<<<<\n");
 			}else {
-				System.out.printf("\n>>>>>>Warning: The flight cannot be updated.<<<<<<<\n");
+				System.out.println(">>>>>>Warning: The flight cannot be updated.<<<<<<<\n");
 			}
 		} catch (SQLException e) {
 			connection.rollback();
@@ -199,6 +178,9 @@ public class AdminService {
 			flightDao.deleteFlight(flight);
 
 			connection.commit();
+			if(flightDao.findFlightById(flight.getId()) == null) {
+				System.out.println("Flight Id: " + flight.getId() + " has been deleted.\n");
+			}
 		} catch (SQLException e) {
 			connection.rollback();
 			e.printStackTrace();

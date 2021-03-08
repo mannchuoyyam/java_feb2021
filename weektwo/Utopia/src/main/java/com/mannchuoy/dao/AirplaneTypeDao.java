@@ -21,6 +21,8 @@ import com.mannchuoy.entity.AirplaneType;
  * Class AirplaneTypeDao: DAO for AirplaneType Object
  */
 public class AirplaneTypeDao extends BaseDao<AirplaneType> {
+	final static String GET_ONE = "SELECT * FROM airplane_type WHERE id = ?";
+			
 	public AirplaneTypeDao(Connection connection) {
 		super(connection);
 	}
@@ -47,6 +49,10 @@ public class AirplaneTypeDao extends BaseDao<AirplaneType> {
 		return read("SELECT * FROM airplane_type WHERE id = ?", new Object[] {id});
 	}
 	
+	public AirplaneType findAirplaneTypeById(int id) throws SQLException {
+		return findById(GET_ONE, new Object[] {id});
+	}
+	
 	@Override
 	public List<AirplaneType> populateData(ResultSet result) throws SQLException {
 		List<AirplaneType> airplaneTypes = new ArrayList<AirplaneType>();
@@ -62,8 +68,17 @@ public class AirplaneTypeDao extends BaseDao<AirplaneType> {
 	}
 
 	@Override
-	public AirplaneType getOneElement(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public AirplaneType getOneElement(ResultSet resultSet) throws SQLException {
+		AirplaneType airplaneType = null;
+		
+		while(resultSet.next()) {
+			airplaneType = new AirplaneType();
+			airplaneType.setId(resultSet.getInt("id"));
+			airplaneType.setMaxCapacity(resultSet.getInt("max_capacity"));
+			
+			return airplaneType;
+		}
+		
+		return airplaneType;
 	}
 }
