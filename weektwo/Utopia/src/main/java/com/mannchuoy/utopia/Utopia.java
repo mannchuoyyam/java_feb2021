@@ -4,6 +4,8 @@
 package com.mannchuoy.utopia;
 
 import java.sql.SQLException;
+import java.util.Scanner;
+
 import com.mannchuoy.menu.Menu;
 
 /**
@@ -17,7 +19,8 @@ public class Utopia {
 	 * @throws SQLException 
 	 */
 	public static void main(String[] args) {
-		Menu menu = new Menu();
+		Scanner scanner = new Scanner(System.in);
+		Menu menu = new Menu(scanner);
 		while(!menu.showMainMenu()) {
 			
 		}

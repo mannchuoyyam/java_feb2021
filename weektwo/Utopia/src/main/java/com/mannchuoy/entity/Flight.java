@@ -24,6 +24,18 @@ public class Flight {
 	private Route route;
 	private List<FlightBooking> flightBookings;
 	
+	public Flight() {
+		
+	}
+	
+	public Flight(int id, int planeId, LocalDateTime departureTime, int reservedSeats, float seatPrice) {
+		this.id = id;
+		this.planeId = planeId;
+		this.departureTime = departureTime;
+		this.reservedSeats = reservedSeats;
+		this.seatPrice = seatPrice;
+	}
+	
 	public List<FlightBooking> getFlightBookings() {
 		return flightBookings;
 	}
@@ -35,7 +47,7 @@ public class Flight {
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

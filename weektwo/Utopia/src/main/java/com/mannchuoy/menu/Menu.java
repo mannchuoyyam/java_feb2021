@@ -1,41 +1,26 @@
 /**
+ *  Java_feb2021 Corhot
+ *  Week 2 Evaluation
+ *  Assignment: Utopia Airline
+ *  Date: 3/6/21 - 3/8/21
  * 
  */
 package com.mannchuoy.menu;
 
-import java.sql.Date;
-import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import com.mannchuoy.entity.Airport;
-import com.mannchuoy.entity.Flight;
-import com.mannchuoy.service.AdminService;
 
 /**
  * @author Mannchuoy Yam
  *
  */
-public class Menu {
-
-	Scanner scanner = new Scanner(System.in);
-
-	private void println(String message) {
-		System.out.println(message);
-	}
-
-	private void print(String message) {
-		System.out.print(message);
-	}
-
-	private void printMenu(String[] menus) {
-		for (int i = 0; i < menus.length; ++i) {
-			println((i + 1) + ")" + menus[i]);
-		}
+public class Menu extends BaseMenu {
+	FlightMenu flightMenu;
+	AirportMenu airportMenu;
+	
+	public Menu(Scanner scanner) {
+		super(scanner);
+		flightMenu = new FlightMenu(scanner);
+		airportMenu = new AirportMenu(scanner);
 	}
 
 	public Boolean showMainMenu() {
@@ -43,18 +28,21 @@ public class Menu {
 		String[] menus = { "Enployee", "Administrator", "Traveler", "Exit" };
 
 		Boolean appExit = Boolean.FALSE;
-
-		int option = validateAndGetOption(menus);
-
+		int option = 0;
+	
+		option = validateAndGetOption(menus);
+		
 		switch (option) {
-		case 1:
+		case EMPLOYEE_MENU:
+			showEmployeeMenu();
 			break;
-		case 2:
+		case ADMIN_MENU:
 			showAdmininstratorMainMenu();
 			break;
-		case 3:
+		case TRAVELER_MENU:
+			showTravelerMenu();
 			break;
-		case 4:
+		case EXIT_APP:
 			println("Have a nice day!");
 			appExit = Boolean.TRUE;
 			break;
@@ -65,6 +53,11 @@ public class Menu {
 		return appExit;
 	}
 
+	// TODO: need to implement this function
+	private void showEmployeeMenu() {
+		println("Employee menu not implement yet");
+	}
+	
 	private void showAdmininstratorMainMenu() {
 		String[] adminMainMenus = { "Flights", "Seats", "Tickets and Passengers", "Airports", "Travelers", "Employees",
 				"Over-ride Trip Cancellation for a ticket", "Quit to previous" };
@@ -72,27 +65,34 @@ public class Menu {
 		int option = 0;
 
 		do {
-			option = validateAndGetOption(adminMainMenus);
+			println("Welcome to Administrator Menu");
 
+			option = validateAndGetOption(adminMainMenus);
+			
 			switch (option) {
 			case 1:
-				showFlightMenus();
+				flightMenu.showFlightMenu();
 				break;
 			case 2:
+				println("Seats menu not implement yet");
 				break;
 			case 3:
-
+				println("Tickets and Passenger menu not implement yet");
 				break;
 			case 4:
-				showAirportMenus();
+				airportMenu.showAirportMenus();
 				break;
 			case 5:
+				println("Traveler menu not implement yet");
 				break;
 			case 6:
+				println("Employee menu not implement yet");
 				break;
 			case 7:
+				println("Cancel Ticket menu not implement yet");
 				break;
 			case 8:
+				println("");
 				break;
 			default:
 				break;
@@ -101,118 +101,8 @@ public class Menu {
 		} while (option != 8);
 	}
 
-	private void showFlightMenus() {
-		String[] crudMenu = { "Add", "Update", "Delete", "Read", "Go to previous" };
-
-		int option = 0;
-		AdminService adminService = new AdminService();
-
-		Flight flight = new Flight();
-		Airport origin = new Airport();
-		Airport destination = new Airport();
-
-		origin.setId("LBG");
-		origin.setCity("Long Beach");
-		
-		destination.setId("JFK");
-		destination.setCity("New York");
-		
-		flight.setId(100);
-		flight.setPlaneId(1);
-		flight.setDepartureTime(LocalDateTime.of(2021, 03, 1, 10, 30, 0));
-		flight.setReservedSeats(50);
-		flight.setSeatPrice(100.0f);
-		
-		do {
-			println("What would you like to do with flights?");
-			option = validateAndGetOption(crudMenu);
-			try {
-				switch (option) {
-				case 1:
-					adminService.addFlight(origin, destination, flight);
-					break;
-				case 2:
-
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
-
-				default:
-					break;
-				}
-			} catch (SQLException e) {
-
-			}
-		} while (option != 5);
-	}
-
-	private void showAirportMenus() {
-		String[] crudMenu = { "Add", "Update", "Delete", "Read", "Go to previous" };
-
-		int option = 0;
-		Airport airport = new Airport();
-		airport.setId("sna");
-		airport.setCity("Santa Ana");
-
-		AdminService adminService = new AdminService();
-
-		do {
-			println("What would you like to do with Airports?");
-			option = validateAndGetOption(crudMenu);
-
-			try {
-				switch (option) {
-				case 1:
-					adminService.addAirport(airport);
-					break;
-				case 2:
-					adminService.updateAirport(airport);
-					break;
-				case 3:
-					adminService.deleteAirport(airport);
-					break;
-				case 4:
-					List<Airport> airports = adminService.listAirports();
-					airports.stream().forEach(e -> {
-						println("Code: " + e.getId() + " City: " + e.getCity());
-					});
-					break;
-				case 5:
-					break;
-				default:
-					break;
-				}
-			} catch (SQLException e) {
-
-			}
-		} while (option != 5);
-	}
-
-	private Integer validateAndGetOption(String[] menus) {
-
-		printMenu(menus);
-
-		String prompt = "Please choose one of the options (1 - " + menus.length + "): ";
-
-		int option = 0;
-
-		while (option <= 0 || option > menus.length) {
-			print(prompt);
-			try {
-				option = scanner.nextInt();
-			} catch (NoSuchElementException e) {
-				if (scanner.hasNext()) {
-					scanner.nextLine();
-				}
-				println("Your input is incorrect. Please try again!");
-			}
-			println("");
-		}
-
-		return option;
+	// TODO: need to implement this function
+	private void showTravelerMenu() {
+		println("Traveler menu not implement yet");
 	}
 }

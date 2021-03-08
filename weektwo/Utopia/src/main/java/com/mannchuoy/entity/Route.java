@@ -17,8 +17,26 @@ public class Route {
 	private int id;
 	private String originId;
 	private String destinationId;
-	private List<Airport> airports;
+	private Airport origin;
+	private Airport destination;
 	private List<Flight> flights;
+	
+	public Airport getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(Airport origin) {
+		this.origin = origin;
+	}
+
+	public Airport getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Airport destination) {
+		this.destination = destination;
+	}
+
 	
 	public int getId() {
 		return id;
@@ -42,14 +60,6 @@ public class Route {
 	
 	public void setDestinationId(String destinationId) {
 		this.destinationId = destinationId;
-	}
-	
-	public List<Airport> getAirports() {
-		return airports;
-	}
-	
-	public void setAirports(List<Airport> airports) {
-		this.airports = airports;
 	}
 	
 	public List<Flight> getFlights() {

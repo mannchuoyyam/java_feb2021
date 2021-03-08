@@ -18,6 +18,15 @@ public class Airport {
 	private String city;
 	private List<Route> routes;
 	
+	public Airport() {
+	
+	}
+	
+	public Airport(String id, String city) {
+		this.id = id;
+		this.city = city;
+	}
+
 	public List<Route> getRoutes() {
 		return routes;
 	}
