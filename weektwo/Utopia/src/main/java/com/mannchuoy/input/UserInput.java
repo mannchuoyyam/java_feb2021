@@ -314,13 +314,13 @@ public class UserInput {
 		return new Airport(code, city);
 	}
 
-	public Flight getFlightToBeDeleted() {
+	public Flight getFlightById() {
 		Flight flight = new Flight();
 		int flightId = 0;
 		boolean isCorrectInput = false;
 		while (!isCorrectInput) {
 			try {
-				print("Enter flight id to be deleted: ");
+				print("Enter flight id: ");
 				flightId = scanner.nextInt();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {

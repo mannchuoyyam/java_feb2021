@@ -32,7 +32,7 @@ public class FlightDaoTest {
 		int planeId = 1;
 		int reservedSeats = 50;
 		int newReservedSeats = 100;
-		int routeId = 2;
+		int routeId = 13;
 		float seatPrice = 100.0f;
 		
 		FlightDao flightDao = new FlightDao(connection);

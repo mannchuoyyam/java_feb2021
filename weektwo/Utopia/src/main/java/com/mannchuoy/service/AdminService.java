@@ -189,6 +189,22 @@ public class AdminService {
 		}
 	}
 
+	public Flight getFlightById(int id) throws SQLException{
+		Connection connection = null;
+		Flight flight = null;
+		try {
+			connection = DBConnection.getConnection(Boolean.TRUE);
+			FlightDao flightDao = new FlightDao(connection);
+			flight = flightDao.findFlightById(id);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
+		return flight;
+	}
+	
 	public void listFlights() throws SQLException {
 		Connection connection = null;
 		List<Flight> flights = null;

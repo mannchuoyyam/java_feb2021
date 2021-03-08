@@ -9,6 +9,8 @@ package com.mannchuoy.menu;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,7 +59,7 @@ public class FlightMenu extends BaseMenu {
 					deleteFlightMenu();
 					break;
 				case READ:
-					adminService.listFlights();
+					findFlightMenu();
 					break;
 				case GO_TO_PREVIOUS:
 					println("");
@@ -126,7 +128,29 @@ public class FlightMenu extends BaseMenu {
 	}
 	
 	private void deleteFlightMenu() throws SQLException {
-		Flight flight = userInput.getFlightToBeDeleted();
+		Flight flight = userInput.getFlightById();
 		adminService.deleteFlight(flight);
+	}
+	
+	private void findFlightMenu() throws SQLException {
+		Flight flight = userInput.getFlightById();
+		int id = flight.getId();
+		flight = adminService.getFlightById(flight.getId());
+		if(flight != null) {
+			Connection connection = DBConnection.getConnection(Boolean.TRUE);
+			RouteDao routeDao = new RouteDao(connection);
+			AirportDao airportDao = new AirportDao(connection);
+			int routeId = flight.getRouteId();
+			Route route = routeDao.getRouteById(routeId);
+			Airport origin = airportDao.findById(route.getOriginId());
+			Airport destination = airportDao.findById(route.getDestinationId());
+			
+			println("\nFlight id: " + id +":");
+			println("Origin: " + origin + " Destination: " + destination);
+			println("Departure time: " + flight.getDepartureTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)) + "\n");
+			connection.close();
+		}else {
+			println("There is no flight with Id: " + id);
+		}
 	}
 }
