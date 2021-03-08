@@ -49,7 +49,7 @@ public class AirportDao extends BaseDao<Airport> {
 		return read("SELECT * FROM airport", new Object[] {});
 	}
 	
-	public Airport findById(String id) throws SQLException {
+	public Airport findAirportById(String id) throws SQLException {
 		return findById(GET_ONE, new Object[] {id});
 	}
 

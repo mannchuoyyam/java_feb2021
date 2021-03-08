@@ -7,10 +7,13 @@
  */
 package com.mannchuoy.menu;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.mannchuoy.dao.AirportDao;
+import com.mannchuoy.dao.DBConnection;
 import com.mannchuoy.entity.Airport;
 import com.mannchuoy.service.AdminService;
 
@@ -19,40 +22,31 @@ import com.mannchuoy.service.AdminService;
  *
  */
 public class AirportMenu extends BaseMenu {
-
+	AdminService adminService;
+	
 	public AirportMenu(Scanner scanner) {
 		super(scanner);
+		adminService = new AdminService();
 	}
 	
 	public void showAirportMenus() {
 		int option = 0;
-
-		AdminService adminService = new AdminService();
-
 		do {
-			println("What would you like to do with Airports?");
-
-			Airport airport;
+			println("Utopia Airports Management System?");
 			try {
 				option = validateAndGetOption(crudMenu);
 				switch (option) {
 				case ADD:
-					airport = userInput.getAirport("");
-					adminService.addAirport(airport);
+					addAirportMenu();
 					break;
 				case UPDATE:
-					airport = userInput.getAirport("");
-					adminService.updateAirport(airport);
+					updateAirportMenu();
 					break;
 				case DELETE:
-					airport = userInput.getAirport("");
-					adminService.deleteAirport(airport);
+					deleteAirportMenu();
 					break;
 				case READ:
-					List<Airport> airports = adminService.listAirports();
-					airports.stream().forEach(e -> {
-						println(e.getId() + ", " + e.getCity());
-					});
+					getAirportMenu();
 					break;
 				case GO_TO_PREVIOUS:
 					break;
@@ -64,4 +58,66 @@ public class AirportMenu extends BaseMenu {
 			}
 		} while (option != GO_TO_PREVIOUS);
 	}
+	
+	private void addAirportMenu() throws SQLException {
+		Airport airport = userInput.getAirport("");
+		adminService.addAirport(airport);
+	}
+	
+	private void updateAirportMenu() throws SQLException{
+		// show list of airport
+		Connection connection = DBConnection.getConnection(Boolean.TRUE);
+		AirportDao airportDao = new AirportDao(connection);
+		List<Airport> airports = airportDao.listAirport();
+		if(airports.size() > 0) {
+			int index = 1;
+			for(Airport airport : airports) {
+				println(index + ")" + airport);
+				index++;
+			}
+			
+			int optionStartAt = 1;
+			int optionEndAt = airports.size();
+			int option = userInput.getFlightUpdateOption(optionStartAt, optionEndAt);
+			
+			Airport airport = airports.get(option -1);
+			println("You have selected airport: " +  airport + " to update");
+			
+			String city = userInput.getAirportCity("Enter city for the airport: ");
+			airport.setCity(city);
+			adminService.updateAirport(airport);	
+		}
+	}
+	
+	private void deleteAirportMenu() throws SQLException{
+		Connection connection = DBConnection.getConnection(Boolean.TRUE);
+		AirportDao airportDao = new AirportDao(connection);
+		List<Airport> airports = airportDao.listAirport();
+		if(airports.size() > 0) {
+			int index = 1;
+			for(Airport airport : airports) {
+				println(index + ")" + airport);
+				index++;
+			}
+			
+			int optionStartAt = 1;
+			int optionEndAt = airports.size();
+			int option = userInput.getFlightUpdateOption(optionStartAt, optionEndAt);
+			
+			Airport airport = airports.get(option -1);
+			
+			adminService.deleteAirport(airport);	
+		}
+	}
+	
+	private void getAirportMenu() throws SQLException {
+		List<Airport> airports = adminService.listAirports();
+		int index = 1;
+		for(Airport airport : airports) {
+			println(index + ")" + airport);
+			index++;
+		}
+		println("");
+	}
+	
 }

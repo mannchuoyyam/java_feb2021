@@ -99,8 +99,8 @@ public class FlightMenu extends BaseMenu {
 			for (Flight flight : flights) {
 				int routeId = flight.getRouteId();
 				Route route = routeDao.getRouteById(routeId);
-				Airport origin = airportDao.findById(route.getOriginId());
-				Airport destination = airportDao.findById(route.getDestinationId());
+				Airport origin = airportDao.findAirportById(route.getOriginId());
+				Airport destination = airportDao.findAirportById(route.getDestinationId());
 				origins.add(origin);
 				destinations.add(destination);
 			}
@@ -142,8 +142,8 @@ public class FlightMenu extends BaseMenu {
 			AirportDao airportDao = new AirportDao(connection);
 			int routeId = flight.getRouteId();
 			Route route = routeDao.getRouteById(routeId);
-			Airport origin = airportDao.findById(route.getOriginId());
-			Airport destination = airportDao.findById(route.getDestinationId());
+			Airport origin = airportDao.findAirportById(route.getOriginId());
+			Airport destination = airportDao.findAirportById(route.getDestinationId());
 			
 			println("\nFlight id: " + id +":");
 			println("Origin: " + origin + " Destination: " + destination);

@@ -25,7 +25,7 @@ public class Menu extends BaseMenu {
 
 	public Boolean showMainMenu() {
 		println("Welcome to the Utopia Airline Management System. Which category of a user are you?");
-		String[] menus = { "Enployee", "Administrator", "Traveler", "Exit" };
+		String[] menus = { "Employee", "Administrator", "Traveler", "Exit" };
 
 		Boolean appExit = Boolean.FALSE;
 		int option = 0;

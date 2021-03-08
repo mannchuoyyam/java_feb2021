@@ -161,7 +161,7 @@ public class UserInput {
 				seatPrice = scanner.nextFloat();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {
-				flashBadInput();
+				flushBadInput();
 			}
 		}
 		return seatPrice;
@@ -176,7 +176,7 @@ public class UserInput {
 				reservedSeat = scanner.nextInt();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {
-				flashBadInput();
+				flushBadInput();
 			}
 		}
 		return reservedSeat;
@@ -190,7 +190,7 @@ public class UserInput {
 			try {
 				id = scanner.nextInt();
 			} catch (NoSuchElementException e) {
-				flashBadInput();
+				flushBadInput();
 			}
 		}
 		return id;
@@ -215,7 +215,7 @@ public class UserInput {
 				selectedNumber = scanner.nextInt();
 				isCorrectInput = true;
 			}catch(NoSuchElementException e){
-				flashBadInput();
+				flushBadInput();
 			}
 		}
 		int selectedIndex = selectedNumber - 1;
@@ -298,22 +298,42 @@ public class UserInput {
 		return time;
 	}
 
-	// TODO: need input validation
 	public Airport getAirport(String info) {
-		String promptCode = info.isEmpty() ? "\nEnter airport code: " : "\nEnter " + info + " airport code: ";
-		String promptCity = info.isEmpty() ? "\nEnter city: " : "\nEnter " + info + " city: ";
-
-		print(promptCode);
-		String code = scanner.next();
-
+		String promptCode = info.isEmpty() ? "Enter airport code: " : "\nEnter " + info + " airport code: ";
+		String promptCity = info.isEmpty() ? "Enter city: " : "\nEnter " + info + " city: ";
+		
+		String code;
+		int codeLengthRestriction = 3;
+		
 		skipNewLine();
-
+		
+		while(true) {
+			print(promptCode);
+			code = scanner.nextLine();
+			if(code.length() != codeLengthRestriction) {
+				print("Enter a code string with length of 3.");
+			}else {
+				break;
+			}
+		}
+		
 		print(promptCity);
 		String city = scanner.nextLine();
 
 		return new Airport(code, city);
 	}
 
+	public String getAirportCity(String prompt) {
+		skipNewLine();
+		String city = "";
+		while(city.isBlank()) {
+			print(prompt);
+			city = scanner.nextLine();
+		}
+		
+		return city;
+	}
+	
 	public Flight getFlightById() {
 		Flight flight = new Flight();
 		int flightId = 0;
@@ -324,13 +344,35 @@ public class UserInput {
 				flightId = scanner.nextInt();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {
-				flashBadInput();
+				flushBadInput();
 			}
 		}
 		flight.setId(flightId);
 		return flight;
 	}
 
+	
+	public int getAirportUpdateOption(int optionStartAt, int optionEndAt) {
+		String prompt = "Select a flight to update (" + optionStartAt + " - " + optionEndAt + "): ";
+		return getUpdateOption(optionStartAt, optionEndAt, prompt);
+	}
+	
+	private int getUpdateOption(int optionStartAt, int optionEndAt, String prompt) {
+		int option = 0;
+		while (option == 0) {
+			print(prompt);
+			try {
+				option = scanner.nextInt();
+				if (option < optionStartAt || option > optionEndAt) {
+					option = 0;
+					println("Please choose the from the options above");
+				}
+			} catch (NoSuchElementException e) {
+				flushBadInput();
+			}
+		}
+		return option;
+	}
 	private void skipNewLine() {
 		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 	}
@@ -343,7 +385,7 @@ public class UserInput {
 		System.out.print(message);
 	}
 	
-	private void flashBadInput() {
+	private void flushBadInput() {
 		String s = scanner.nextLine();
 		print(s + " is not a good input.");
 	}

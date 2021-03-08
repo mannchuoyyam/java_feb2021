@@ -29,6 +29,9 @@ public class AdminService {
 			airportDao.addAirport(airport);
 
 			connection.commit();
+			if(airportDao.findAirportById(airport.getId()) != null){
+				System.out.println(airport + " has been added.");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			connection.rollback();
@@ -45,6 +48,10 @@ public class AdminService {
 			airportDao.updateAirport(airport);
 
 			connection.commit();
+			if(airportDao.findAirportById(airport.getId()) != null){
+				System.out.println(airport + " have been updated.\n");
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			connection.rollback();
@@ -61,6 +68,9 @@ public class AdminService {
 			airportDao.deleteAirport(airport);
 
 			connection.commit();
+			if(airportDao.findAirportById(airport.getId()) == null) {
+				System.out.println(airport + " has been deleted.\n");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			connection.rollback();
