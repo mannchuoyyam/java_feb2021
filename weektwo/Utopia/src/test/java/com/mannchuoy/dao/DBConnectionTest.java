@@ -18,9 +18,8 @@ public class DBConnectionTest {
 	@Test
 	public void getConnectionTest() {
 		try {
-			assertNotEquals(null, DBConnection.getConnection());
+			assertNotEquals(null, DBConnection.getConnection(Boolean.TRUE));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
