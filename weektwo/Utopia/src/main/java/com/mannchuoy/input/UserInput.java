@@ -91,7 +91,7 @@ public class UserInput {
 
 	private boolean updateFlightDateTime(Flight flight) {
 		print("\nPlease enter new Departure Date or enter N/A for no change: ");
-		
+
 		LocalDate date = null;
 		LocalTime time = null;
 
@@ -107,12 +107,12 @@ public class UserInput {
 					input = scanner.nextLine();
 				}
 			}
-		}else {
+		} else {
 			date = flight.getDepartureTime().toLocalDate();
 		}
 
 		print("\nPlease enter new Departure time or enter N/A for no change: ");
-		
+
 		input = scanner.nextLine();
 		if (input.equals("quit")) {
 			return false;
@@ -125,11 +125,11 @@ public class UserInput {
 					input = scanner.nextLine();
 				}
 			}
-		}else {
+		} else {
 			time = flight.getDepartureTime().toLocalTime();
 		}
-		
-		if(date != null && time != null) {
+
+		if (date != null && time != null) {
 			flight.setDepartureTime(LocalDateTime.of(date, time));
 		}
 		return true;
@@ -137,7 +137,7 @@ public class UserInput {
 
 	private boolean updateAirport(Airport origin, String location) {
 		print("\nPlease enter new " + location + " Airport and City or enter N/A for no change: ");
-		
+
 		skipNewLine();
 		String input = scanner.nextLine();
 		if (input.toLowerCase().equals("quit")) {
@@ -161,8 +161,7 @@ public class UserInput {
 				seatPrice = scanner.nextFloat();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {
-				String s = scanner.nextLine();
-				print(s + " is not a number.");
+				flashBadInput();
 			}
 		}
 		return seatPrice;
@@ -177,8 +176,7 @@ public class UserInput {
 				reservedSeat = scanner.nextInt();
 				isCorrectInput = true;
 			} catch (NoSuchElementException e) {
-				String s = scanner.nextLine();
-				print(s + " is not a number.");
+				flashBadInput();
 			}
 		}
 		return reservedSeat;
@@ -192,8 +190,7 @@ public class UserInput {
 			try {
 				id = scanner.nextInt();
 			} catch (NoSuchElementException e) {
-				String s = scanner.nextLine();
-				print(s + " is not a number.");
+				flashBadInput();
 			}
 		}
 		return id;
@@ -208,11 +205,22 @@ public class UserInput {
 			println(index + ") Plane Id: " + airplane.getId());
 			index++;
 		}
-
-		print("Enter plane id: ");
-		int planeId = scanner.nextInt();
-
-		return planeId;
+		
+		int selectedNumber = 0;
+		boolean isCorrectInput = false;
+		
+		while(!isCorrectInput) {
+			print("Select number to choose a plane id: ");
+			try {
+				selectedNumber = scanner.nextInt();
+				isCorrectInput = true;
+			}catch(NoSuchElementException e){
+				flashBadInput();
+			}
+		}
+		int selectedIndex = selectedNumber - 1;
+		
+		return airplanes.get(selectedIndex).getId();
 	}
 
 	public List<Airplane> getAirplanes() throws SQLException {
@@ -308,10 +316,17 @@ public class UserInput {
 
 	public Flight getFlightToBeDeleted() {
 		Flight flight = new Flight();
-
-		print("Enter flight number to be deleted: ");
-		int flightId = scanner.nextInt();
-
+		int flightId = 0;
+		boolean isCorrectInput = false;
+		while (!isCorrectInput) {
+			try {
+				print("Enter flight id to be deleted: ");
+				flightId = scanner.nextInt();
+				isCorrectInput = true;
+			} catch (NoSuchElementException e) {
+				flashBadInput();
+			}
+		}
 		flight.setId(flightId);
 		return flight;
 	}
@@ -326,5 +341,10 @@ public class UserInput {
 
 	private void print(String message) {
 		System.out.print(message);
+	}
+	
+	private void flashBadInput() {
+		String s = scanner.nextLine();
+		print(s + " is not a good input.");
 	}
 }

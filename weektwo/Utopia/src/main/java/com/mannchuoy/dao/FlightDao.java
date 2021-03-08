@@ -24,6 +24,7 @@ import com.mannchuoy.entity.Flight;
  *
  */
 public class FlightDao extends BaseDao<Flight> {
+	final static String GET_ONE = "SELECT * FROM flight WHERE id = ?";
 	
 	public FlightDao(Connection connection) {
 		super(connection);
@@ -56,6 +57,10 @@ public class FlightDao extends BaseDao<Flight> {
 		return read("SELECT * FROM flight", new Object[] {});
 	}
 
+	public Flight findFlightById(int flightId) throws SQLException {
+		return findById(GET_ONE, new Object[] { flightId });
+	}
+	
 	@Override
 	public List<Flight> populateData(ResultSet result) throws SQLException {
 		List<Flight> flights = new ArrayList<Flight>();

@@ -40,7 +40,6 @@ public class FlightMenu extends BaseMenu {
 
 	public void showFlightMenu() {
 		int option = 0;
-		Flight flight = null;
 		do {
 			println("Utopia Flight Management System");
 
@@ -55,8 +54,7 @@ public class FlightMenu extends BaseMenu {
 					updateFlightMenu();
 					break;
 				case DELETE:
-					flight = userInput.getFlightToBeDeleted();
-					adminService.deleteFlight(flight);
+					deleteFlightMenu();
 					break;
 				case READ:
 					adminService.listFlights();
@@ -125,5 +123,10 @@ public class FlightMenu extends BaseMenu {
 				println("No update has been made");
 			}		
 		}
+	}
+	
+	private void deleteFlightMenu() throws SQLException {
+		Flight flight = userInput.getFlightToBeDeleted();
+		adminService.deleteFlight(flight);
 	}
 }

@@ -60,4 +60,10 @@ public class AirplaneTypeDao extends BaseDao<AirplaneType> {
 		
 		return airplaneTypes;
 	}
+
+	@Override
+	public AirplaneType getOneElement(ResultSet result) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
