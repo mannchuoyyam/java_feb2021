@@ -51,4 +51,8 @@ public class Airport {
 		this.city = city;
 	}
 	
+	public String toString() {
+		return id + ", " + city;
+	}
+	
 }

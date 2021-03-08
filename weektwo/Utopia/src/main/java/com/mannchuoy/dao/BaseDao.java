@@ -93,5 +93,12 @@ public abstract class BaseDao<T> {
 		return populateData(statement.executeQuery());
 	}
 	
+	protected T findById(String sql, Object[] fields) throws SQLException{
+		PreparedStatement statement = getPreparedStatement(sql, fields);
+		return getOneElement(statement.executeQuery());
+	}
+	
 	public abstract List<T> populateData(ResultSet result) throws SQLException;
+	public abstract T getOneElement(ResultSet result) throws SQLException;
+	
 }

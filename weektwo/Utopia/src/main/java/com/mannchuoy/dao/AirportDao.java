@@ -20,6 +20,9 @@ import com.mannchuoy.entity.Airport;
  * class AirportDao is DAO for airport table in the database
  */
 public class AirportDao extends BaseDao<Airport> {
+	
+	final static String GET_ONE = "SELECT * FROM airport WHERE iata_id = ?";
+	
 	public AirportDao(Connection connection) {
 		super(connection);
 	}
@@ -45,6 +48,10 @@ public class AirportDao extends BaseDao<Airport> {
 	public List<Airport> listAirport() throws SQLException {
 		return read("SELECT * FROM airport", new Object[] {});
 	}
+	
+	public Airport findById(String id) throws SQLException {
+		return findById(GET_ONE, new Object[] {id});
+	}
 
 	@Override
 	public List<Airport> populateData(ResultSet result) throws SQLException {
@@ -59,4 +66,18 @@ public class AirportDao extends BaseDao<Airport> {
 		
 		return airports;
 	}
+
+	@Override
+	public Airport getOneElement(ResultSet result) throws SQLException {
+		Airport airport = null;
+		
+		while(result.next()) {
+			airport = new Airport();
+			airport.setId(result.getString("iata_id"));
+			airport.setCity(result.getString("city"));
+		}
+		return airport;
+	}
+	
+	
 }

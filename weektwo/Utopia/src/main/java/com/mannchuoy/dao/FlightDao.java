@@ -76,4 +76,24 @@ public class FlightDao extends BaseDao<Flight> {
 		
 		return flights;
 	}
+
+	@Override
+	public Flight getOneElement(ResultSet resultSet) throws SQLException {
+		Flight flight = null;
+		while(resultSet.next()) {
+			flight = new Flight();
+			flight.setId(resultSet.getInt("id"));
+			flight.setRouteId(resultSet.getInt("route_id"));
+			flight.setPlaneId(resultSet.getInt("airplane_id"));
+			Date date = resultSet.getDate("departure_time");
+			Time time = resultSet.getTime("departure_time");
+			flight.setDepartureTime(LocalDateTime.parse(date.toString() + "T" + time.toString()));
+			flight.setReservedSeats(resultSet.getInt("reserved_seats"));
+			flight.setSeatPrice(resultSet.getFloat("seat_price"));
+			return flight;
+		}
+		return flight;
+	}
+	
+	
 }

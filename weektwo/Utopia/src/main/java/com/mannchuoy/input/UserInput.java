@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.mannchuoy.dao.AirplaneDao;
@@ -72,7 +73,7 @@ public class UserInput {
 			try {
 				reservedSeat = scanner.nextInt();
 				isCorrectInput = true;
-			} catch (NumberFormatException e) {
+			} catch (NoSuchElementException e) {
 				String s = scanner.nextLine();
 				print(s + " is not a number.");
 			}
@@ -87,7 +88,7 @@ public class UserInput {
 			print("Enter flight id: ");
 			try {
 				id = scanner.nextInt();
-			} catch (NumberFormatException e) {
+			} catch (NoSuchElementException e) {
 				String s = scanner.nextLine();
 				print(s + " is not a number.");
 			}
@@ -142,7 +143,7 @@ public class UserInput {
 					if (0 < days && days <= nextTenDays) {
 						date = currentDate.plusDays(days);
 					}
-				} catch (NumberFormatException ex) {
+				} catch (NoSuchElementException ex) {
 					println("Choose or enter the correct date format");
 				}
 			}
