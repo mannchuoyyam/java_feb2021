@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.mannchuoy.dao.AirportDao;
@@ -111,27 +110,20 @@ public class FlightMenu extends BaseMenu {
 			}
 
 			// user pick one to update
-			int option = 0;
 			int optionStartAt = 1;
-			int optionEndAt = flights.size();
-			while(option == 0) {
-				print("Select a flight to update (" + optionStartAt + " - " + optionEndAt + "): ");
-				try {
-					option = scanner.nextInt();
-					if(option < optionStartAt || option > optionEndAt) {
-						option = 0;
-						println("Please choose the from the options above");
-					}
-				}catch(NoSuchElementException e) {
-					String s = scanner.nextLine();
-					println(s + " is a bad input");
-				}
-			}
+			int option = userInput.getFlightUpdateOption(optionStartAt, flights.size());
+			
+			int selectedIndex = option - 1;
+			Flight flight = flights.get(selectedIndex);
+			Airport origin = origins.get(selectedIndex);
+			Airport destination = destinations.get(selectedIndex);
+			
 			// update
-			Flight flight = flights.get(option);
-			Airport origin = origins.get(option);
-			Airport destination = destinations.get(option);
-			adminService.updateFlight(origin, destination, flight);
+			if(userInput.updateFlight(origin, destination, flight)) {
+				adminService.updateFlight(origin, destination, flight);
+			}else {
+				println("No update has been made");
+			}		
 		}
 	}
 }

@@ -37,7 +37,6 @@ public class UserInput {
 		this.scanner = scanner;
 	}
 
-	// TODO: need input validation
 	public Flight getFlight() throws SQLException {
 		int flightId = getFlightId();
 		int planeId = getPlaneId();
@@ -50,6 +49,109 @@ public class UserInput {
 		return new Flight(flightId, planeId, departureDateTime, reservedSeat, seatPrice);
 	}
 
+	public int getFlightUpdateOption(int optionStartAt, int optionEndAt) {
+		int option = 0;
+		while (option == 0) {
+			print("Select a flight to update (" + optionStartAt + " - " + optionEndAt + "): ");
+			try {
+				option = scanner.nextInt();
+				if (option < optionStartAt || option > optionEndAt) {
+					option = 0;
+					println("Please choose the from the options above");
+				}
+			} catch (NoSuchElementException e) {
+				String s = scanner.nextLine();
+				println(s + " is a bad input");
+			}
+		}
+		return option;
+	}
+
+	public boolean updateFlight(Airport origin, Airport destination, Flight flight) {
+		boolean isUpdated = true;
+
+		println("\nYou have chosen to update the Flight with Flight Id: " + flight.getId() + " and Flight Origin: "
+				+ origin + " and Flight Destination: " + destination);
+		println("Enter 'quit' at any prompt to cancel operation");
+
+		if (!updateAirport(origin, "Origin")) {
+			return false;
+		}
+
+		if (!updateAirport(destination, "Destination")) {
+			return false;
+		}
+
+		if (!updateFlightDateTime(flight)) {
+			return false;
+		}
+
+		return isUpdated;
+	}
+
+	private boolean updateFlightDateTime(Flight flight) {
+		print("\nPlease enter new Departure Date or enter N/A for no change: ");
+		
+		LocalDate date = null;
+		LocalTime time = null;
+
+		String input = scanner.nextLine();
+		if (input.equals("quit")) {
+			return false;
+		} else if (!input.toLowerCase().equals("n/a")) {
+			while (date == null) {
+				try {
+					date = LocalDate.parse(input);
+				} catch (DateTimeParseException e) {
+					print("Please enter new Departure time (yyyy-mm-dd): ");
+					input = scanner.nextLine();
+				}
+			}
+		}else {
+			date = flight.getDepartureTime().toLocalDate();
+		}
+
+		print("\nPlease enter new Departure time or enter N/A for no change: ");
+		
+		input = scanner.nextLine();
+		if (input.equals("quit")) {
+			return false;
+		} else if (!input.toLowerCase().equals("n/a")) {
+			while (date == null) {
+				try {
+					date = LocalDate.parse(input);
+				} catch (DateTimeParseException e) {
+					print("Please enter new Departure time (hh-mm-ss): ");
+					input = scanner.nextLine();
+				}
+			}
+		}else {
+			time = flight.getDepartureTime().toLocalTime();
+		}
+		
+		if(date != null && time != null) {
+			flight.setDepartureTime(LocalDateTime.of(date, time));
+		}
+		return true;
+	}
+
+	private boolean updateAirport(Airport origin, String location) {
+		print("\nPlease enter new " + location + " Airport and City or enter N/A for no change: ");
+		
+		skipNewLine();
+		String input = scanner.nextLine();
+		if (input.toLowerCase().equals("quit")) {
+			return false;
+		} else if (!input.toLowerCase().equals("n/a")) {
+			int codeLength = 3;
+			String code = input.substring(0, codeLength);
+			String city = input.substring(codeLength);
+			origin.setId(code);
+			origin.setCity(city);
+		}
+		return true;
+	}
+
 	private float getSeatPrice() {
 		float seatPrice = 0;
 		boolean isCorrectInput = false;
@@ -57,7 +159,8 @@ public class UserInput {
 			print("\nEnter seat price: ");
 			try {
 				seatPrice = scanner.nextFloat();
-			}catch(NumberFormatException e) {
+				isCorrectInput = true;
+			} catch (NoSuchElementException e) {
 				String s = scanner.nextLine();
 				print(s + " is not a number.");
 			}
