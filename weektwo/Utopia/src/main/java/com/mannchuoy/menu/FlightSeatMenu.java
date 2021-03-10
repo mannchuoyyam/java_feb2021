@@ -7,16 +7,11 @@
  */
 package com.mannchuoy.menu;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.mannchuoy.dao.AirportDao;
-import com.mannchuoy.dao.DBConnection;
-import com.mannchuoy.dao.FlightDao;
-import com.mannchuoy.dao.RouteDao;
 import com.mannchuoy.entity.Airport;
 import com.mannchuoy.entity.Flight;
 import com.mannchuoy.entity.FlightSeat;
@@ -50,75 +45,52 @@ public class FlightSeatMenu extends BaseMenu {
 		do {
 			println("Utopia Flight Seat Management System");
 
-			try {
-				option = validateAndGetOption(crudMenu);
+			option = validateAndGetOption(crudMenu);
 
-				switch (option) {
-				case ADD:
-					addFlightSeatMenu();
-					break;
-				case UPDATE:
-					updateFlightSeatMenu();
-					break;
-				case DELETE:
-					deleteFlightSeatMenu();
-					break;
-				case READ:
-					findFlightSeatMenu();
-					break;
-				case GO_TO_PREVIOUS:
-					println("");
-					break;
+			switch (option) {
+			case ADD:
+				addFlightSeatMenu();
+				break;
+			case UPDATE:
+				updateFlightSeatMenu();
+				break;
+			case DELETE:
+				deleteFlightSeatMenu();
+				break;
+			case READ:
+				findFlightSeatMenu();
+				break;
+			case GO_TO_PREVIOUS:
+				println("");
+				break;
 
-				default:
-					break;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			default:
+				break;
 			}
+
 		} while (option != GO_TO_PREVIOUS);
 	}
 
-	private void addFlightSeatMenu() throws SQLException {
+	private void addFlightSeatMenu() {
 		// show flight to choose from
-		Connection connection = DBConnection.getConnection(Boolean.TRUE);
+		FlightService flightService = new FlightService();
 
-		FlightDao flightDao = new FlightDao(connection);
-		RouteDao routeDao = new RouteDao(connection);
-		AirportDao airportDao = new AirportDao(connection);
+		try {
+			List<Flight> flights = flightService.findAll();
+			if (flights != null && flights.size() > 0) {
+				Flight flight = getSelecteFlight(flights);
 
-		List<Flight> flights = flightDao.listFlight();
-		if (flights.size() > 0) {
-			List<Airport> origins = new ArrayList<>();
-			List<Airport> destinations = new ArrayList<>();
-			for (Flight flight : flights) {
-				int routeId = flight.getRouteId();
-				Route route = routeDao.getRouteById(routeId);
-				Airport origin = airportDao.findAirportById(route.getOriginId());
-				Airport destination = airportDao.findAirportById(route.getDestinationId());
-				origins.add(origin);
-				destinations.add(destination);
+				int numberOfFirstClass = flightSeatUserInput.getSeatNumberForClass("First");
+				int numberOfBusinessClass = flightSeatUserInput.getSeatNumberForClass("Business");
+				int numberOfEconomyClass = flightSeatUserInput.getSeatNumberForClass("Economy");
+
+				FlightSeat flightSeat = new FlightSeat(flight.getId(), numberOfFirstClass, numberOfBusinessClass,
+						numberOfEconomyClass);
+
+				flightSeatService.add(flightSeat);
 			}
-
-			for (int i = 0; i < origins.size(); ++i) {
-				println((i + 1) + ")" + origins.get(i) + " --> " + destinations.get(i));
-			}
-
-			// user pick one to update
-			int optionStartAt = 1;
-			int option = userInput.getFlightUpdateOption(optionStartAt, flights.size());
-
-			int selectedIndex = option - 1;
-			Flight flight = flights.get(selectedIndex);
-
-			int numberOfFirstClass = flightSeatUserInput.getSeatNumberForClass("First");
-			int numberOfBusinessClass = flightSeatUserInput.getSeatNumberForClass("Business");
-			int numberOfEconomyClass = flightSeatUserInput.getSeatNumberForClass("Economy");
-
-			FlightSeat flightSeat = new FlightSeat(flight.getId(), numberOfFirstClass, numberOfBusinessClass,
-					numberOfEconomyClass);
-
-			flightSeatService.add(flightSeat);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -179,12 +151,12 @@ public class FlightSeatMenu extends BaseMenu {
 			List<Flight> flights = flightService.findAll();
 			if (flights != null && flights.size() > 0) {
 				Flight flight = getSelecteFlight(flights);
-				
+
 				FlightSeat flightSeat = flightSeatService.findById(flight.getId());
 
 				if (flightSeat != null) {
 					System.out.println("\n" + flightSeat + "\n");
-				}else {
+				} else {
 					System.out.println("\nThere is no Flight Seat related to flight Id: " + flight.getId() + "\n");
 				}
 			}
