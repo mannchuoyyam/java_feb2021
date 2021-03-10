@@ -59,6 +59,14 @@ public class RouteDao extends BaseDao<Route> {
 		}
 		return null;
 	}
+	
+	public Route findById(int id) throws SQLException {
+		List<Route> routes = read("SELECT * FROM route WHERE id = ?", new Object[] { id });
+		if (routes.size() != 0) {
+			return routes.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	public List<Route> populateData(ResultSet result) throws SQLException {

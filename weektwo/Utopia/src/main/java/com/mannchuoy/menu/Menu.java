@@ -16,11 +16,13 @@ import java.util.Scanner;
 public class Menu extends BaseMenu {
 	FlightMenu flightMenu;
 	AirportMenu airportMenu;
+	FlightSeatMenu flightSeatMenu;
 	
 	public Menu(Scanner scanner) {
 		super(scanner);
 		flightMenu = new FlightMenu(scanner);
 		airportMenu = new AirportMenu(scanner);
+		flightSeatMenu = new FlightSeatMenu(scanner);
 	}
 
 	public Boolean showMainMenu() {
@@ -74,7 +76,7 @@ public class Menu extends BaseMenu {
 				flightMenu.showFlightMenu();
 				break;
 			case 2:
-				println("Seats menu not implement yet");
+				flightSeatMenu.showFlightSeatMenu();
 				break;
 			case 3:
 				println("Tickets and Passenger menu not implement yet");

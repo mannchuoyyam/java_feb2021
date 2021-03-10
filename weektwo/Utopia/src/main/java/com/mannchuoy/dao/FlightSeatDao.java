@@ -22,7 +22,7 @@ import com.mannchuoy.entity.FlightSeat;
  */
 public class FlightSeatDao extends BaseDao<FlightSeat>{
 	final String INSERT_SQL = "INSERT INTO flight_seat(flight_id, first, business, economy) VALUES(?, ?, ?, ?)";
-	final String UPDATE_SQL = "UPDATE flight_seat SET first = ?, business = ?, economy = ?, WHERE flight_id = ?";
+	final String UPDATE_SQL = "UPDATE flight_seat SET first = ?, business = ?, economy = ? WHERE flight_id = ?";
 	final String DELETE_SQL = "DELETE FROM flight_seat WHERE flight_id = ?";
 	final String GET_ONE = "SELECT * FROM flight_seat WHERE flight_id = ?";
 	final String GET_ALL = "SELECT * FROM flight_seat";

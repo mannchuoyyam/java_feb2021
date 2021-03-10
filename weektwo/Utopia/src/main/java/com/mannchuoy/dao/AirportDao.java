@@ -52,6 +52,10 @@ public class AirportDao extends BaseDao<Airport> {
 	public Airport findAirportById(String id) throws SQLException {
 		return findById(GET_ONE, new Object[] {id});
 	}
+	
+	public Airport findById(String id) throws SQLException {
+		return findById(GET_ONE, new Object[] {id});
+	}
 
 	@Override
 	public List<Airport> populateData(ResultSet result) throws SQLException {

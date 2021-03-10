@@ -6,6 +6,7 @@ package com.mannchuoy.menu;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import com.mannchuoy.input.BaseUserInput;
 import com.mannchuoy.input.UserInput;
 
 /**
@@ -29,12 +30,12 @@ public abstract class BaseMenu {
 	protected Scanner scanner;
 	UserInput userInput;
 	String[] crudMenu = { "Add", "Update", "Delete", "Read", "Go to previous" };
-
+	
 	protected BaseMenu(Scanner scanner) {
 		this.scanner = scanner;
 		userInput = new UserInput(scanner);
 	}
-	
+
 	protected void println(String message) {
 		System.out.println(message);
 	}

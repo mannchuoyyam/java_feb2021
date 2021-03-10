@@ -20,6 +20,17 @@ public class FlightSeat {
 	
 	private int numberOfEconomyClass;
 
+	public FlightSeat() {
+		
+	}
+	
+	public FlightSeat(int flightId, int numberOfFirstClass, int numberOfBusinessClass, int numberOfEconomyClass) {
+		this.flightId = flightId;
+		this.numberOfFirstClass = numberOfFirstClass;
+		this.numberOfBusinessClass = numberOfBusinessClass;
+		this.numberOfEconomyClass = numberOfEconomyClass;
+	}
+
 	public int getFlightId() {
 		return flightId;
 	}
@@ -52,4 +63,12 @@ public class FlightSeat {
 		this.numberOfEconomyClass = numberOfEconomyClass;
 	}
 
+	@Override
+	public String toString() {
+		return "FlightSeat [flightId=" + flightId + ", numberOfFirstClass=" + numberOfFirstClass
+				+ ", numberOfBusinessClass=" + numberOfBusinessClass + ", numberOfEconomyClass=" + numberOfEconomyClass
+				+ "]";
+	}
+
+	
 }
