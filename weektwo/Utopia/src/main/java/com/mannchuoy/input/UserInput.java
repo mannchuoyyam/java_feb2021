@@ -305,8 +305,6 @@ public class UserInput {
 		String code;
 		int codeLengthRestriction = 3;
 		
-		skipNewLine();
-		
 		while(true) {
 			print(promptCode);
 			code = scanner.nextLine();

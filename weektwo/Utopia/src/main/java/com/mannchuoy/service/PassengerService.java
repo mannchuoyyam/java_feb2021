@@ -134,4 +134,27 @@ public class PassengerService {
 		
 		return passengers;
 	}
+	
+	public List<Passenger> findAllByFlightId(int flightId) throws SQLException{
+		String sql = "SELECT d.id, d.booking_id, d.given_name, d.family_name, d.dob, d.gender, d.address "
+				+ "FROM flight f "
+				+ "JOIN ("
+				+ "SELECT a.flight_id, a.booking_id, p.id, p.given_name, p.family_name, p.dob, p.gender, p.address "
+				+ "FROM flight_bookings a JOIN passenger p ON a.booking_id = p.booking_id"
+				+ ") d ON f.id = d.flight_id";
+		
+		Connection connection = null;
+		List<Passenger> passengers = null;
+		try {
+			connection = DBConnection.getConnection(Boolean.TRUE);
+			PassengerDao passengerDao = new PassengerDao(connection);
+			passengers = passengerDao.read(sql, new Object[] {});
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			connection.close();
+		}
+		
+		return passengers;
+	}
 }

@@ -66,7 +66,7 @@ public class FlightSeatUserInput extends BaseUserInput {
 	}
 
 	public FlightSeat getSelectedFlightSeat(List<FlightSeat> flightSeats) {
-		String prompt = "Select one of the flight seat from option above: ";
+		String prompt = "Select one of the flight seat from option above:";
 		int indexStartAt = 1;
 		int indexEndAt = flightSeats.size();
 

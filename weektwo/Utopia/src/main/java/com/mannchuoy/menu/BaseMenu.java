@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import com.mannchuoy.entity.FlightSeat;
+import com.mannchuoy.entity.Passenger;
 import com.mannchuoy.entity.SeatType;
 import com.mannchuoy.input.UserInput;
 
@@ -79,6 +81,22 @@ public abstract class BaseMenu {
 		int index = 1;
 		for(SeatType seatType : seatTypes) {
 			System.out.println(index + ") " + seatType.getSeatClass());
+			index++;
+		}
+	}
+	
+	public static void printFlightSeat(List<FlightSeat> flightSeats) {
+		int index = 1;
+		for (FlightSeat flightSeat : flightSeats) {
+			System.out.println(index + ") " + flightSeat);
+			index++;
+		}
+	}
+	
+	public static void printPassenger(List<Passenger> passengers) {
+		int index = 1;
+		for (Passenger passenger : passengers) {
+			System.out.println(index + ") " + passenger.getGivenName() + " " + passenger.getFamilyName());
 			index++;
 		}
 	}

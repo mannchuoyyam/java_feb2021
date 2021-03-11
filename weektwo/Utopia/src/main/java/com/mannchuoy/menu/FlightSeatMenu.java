@@ -140,17 +140,8 @@ public class FlightSeatMenu extends BaseMenu {
 	}
 
 	private FlightSeat getSelectedFlightSeat(List<FlightSeat> flightSeats) {
-		printFlightSeat(flightSeats);
+		BaseMenu.printFlightSeat(flightSeats);
 		return flightSeatUserInput.getSelectedFlightSeat(flightSeats);
-	}
-
-	private void printFlightSeat(List<FlightSeat> flightSeats) {
-		int index = 1;
-		for (FlightSeat flightSeat : flightSeats) {
-			println(index + ") " + flightSeat);
-			index++;
-		}
-
 	}
 
 	private void deleteFlightSeatMenu() {

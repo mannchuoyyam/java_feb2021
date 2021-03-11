@@ -78,6 +78,9 @@ public class FlightMenu extends BaseMenu {
 		println("Adding a new flight");
 
 		Flight flight = userInput.getFlight();
+		
+		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+		
 		Airport origin = userInput.getAirport("departure");
 		Airport destination = userInput.getAirport("destination");
 
