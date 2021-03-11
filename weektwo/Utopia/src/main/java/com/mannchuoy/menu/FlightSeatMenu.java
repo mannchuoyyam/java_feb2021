@@ -16,11 +16,13 @@ import com.mannchuoy.entity.Airport;
 import com.mannchuoy.entity.Flight;
 import com.mannchuoy.entity.FlightSeat;
 import com.mannchuoy.entity.Route;
+import com.mannchuoy.entity.SeatType;
 import com.mannchuoy.input.FlightSeatUserInput;
 import com.mannchuoy.service.AirportService;
 import com.mannchuoy.service.FlightSeatService;
 import com.mannchuoy.service.FlightService;
 import com.mannchuoy.service.RouteService;
+import com.mannchuoy.service.SeatTypeService;
 
 /**
  * @author Mannchuoy Yam
@@ -80,18 +82,34 @@ public class FlightSeatMenu extends BaseMenu {
 			if (flights != null && flights.size() > 0) {
 				Flight flight = getSelecteFlight(flights);
 
-				int numberOfFirstClass = flightSeatUserInput.getSeatNumberForClass("First");
-				int numberOfBusinessClass = flightSeatUserInput.getSeatNumberForClass("Business");
-				int numberOfEconomyClass = flightSeatUserInput.getSeatNumberForClass("Economy");
+				String seatNumber = flightSeatUserInput.getSeatNumber();
+				int seatType = getSeatTypeId();
+				boolean available = flightSeatUserInput.getAvailable();
 
-				FlightSeat flightSeat = new FlightSeat(flight.getId(), numberOfFirstClass, numberOfBusinessClass,
-						numberOfEconomyClass);
+				FlightSeat flightSeat = new FlightSeat(0, flight.getId(), seatNumber, seatType, available);
 
 				flightSeatService.add(flightSeat);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private int getSeatTypeId() {
+		int seatTypeId = 0;
+		SeatTypeService seatTypeService = new SeatTypeService();
+		try {
+			List<SeatType> seatTypes = seatTypeService.findAll();
+			if (seatTypes != null && seatTypes.size() > 0) {
+				BaseMenu.printSeatType(seatTypes);
+				SeatType seatType = flightSeatUserInput.getSeatType(seatTypes);
+				seatTypeId = seatType.getId();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return seatTypeId;
 	}
 
 	private void updateFlightSeatMenu() {
@@ -103,25 +121,36 @@ public class FlightSeatMenu extends BaseMenu {
 			if (flights != null && flights.size() > 0) {
 				Flight flight = getSelecteFlight(flights);
 
-				FlightSeat flightSeat = flightSeatService.findById(flight.getId());
+				List<FlightSeat> flightSeats = flightSeatService.findByFlightId(flight.getId());
 
-				if (flightSeat != null) {
-					int numberOfFirstClass = flightSeatUserInput.getSeatNumberForClassToBeUpdated("First",
-							flightSeat.getNumberOfFirstClass());
-					int numberOfBusinessClass = flightSeatUserInput.getSeatNumberForClassToBeUpdated("Business",
-							flightSeat.getNumberOfBusinessClass());
-					int numberOfEconomyClass = flightSeatUserInput.getSeatNumberForClassToBeUpdated("Economy",
-							flightSeat.getNumberOfEconomyClass());
+				FlightSeat flightSeat = getSelectedFlightSeat(flightSeats);
 
-					FlightSeat newFlightSeat = new FlightSeat(flight.getId(), numberOfFirstClass, numberOfBusinessClass,
-							numberOfEconomyClass);
+				println("You have chosen to update the Seat: " + flightSeat.toString());
+				println("Enter 'quit' at any prompt to cancel operation.");
 
+				FlightSeat newFlightSeat = flightSeatUserInput.getUpdatedFlightSeat(flightSeat);
+
+				if (newFlightSeat != null) {
 					flightSeatService.update(newFlightSeat);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private FlightSeat getSelectedFlightSeat(List<FlightSeat> flightSeats) {
+		printFlightSeat(flightSeats);
+		return flightSeatUserInput.getSelectedFlightSeat(flightSeats);
+	}
+
+	private void printFlightSeat(List<FlightSeat> flightSeats) {
+		int index = 1;
+		for (FlightSeat flightSeat : flightSeats) {
+			println(index + ") " + flightSeat);
+			index++;
+		}
+
 	}
 
 	private void deleteFlightSeatMenu() {
@@ -132,11 +161,14 @@ public class FlightSeatMenu extends BaseMenu {
 			List<Flight> flights = flightService.findAll();
 			if (flights != null && flights.size() > 0) {
 				Flight flight = getSelecteFlight(flights);
-				FlightSeat flightSeat = flightSeatService.findById(flight.getId());
 
-				if (flightSeat != null) {
-					flightSeatService.delete(flightSeat);
-				}
+				List<FlightSeat> flightSeats = flightSeatService.findByFlightId(flight.getId());
+
+				FlightSeat flightSeat = getSelectedFlightSeat(flightSeats);
+
+				println("You have chosen to delete the seat: " + flightSeat.toString());
+
+				flightSeatService.delete(flightSeat);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,13 +184,11 @@ public class FlightSeatMenu extends BaseMenu {
 			if (flights != null && flights.size() > 0) {
 				Flight flight = getSelecteFlight(flights);
 
-				FlightSeat flightSeat = flightSeatService.findById(flight.getId());
+				List<FlightSeat> flightSeats = flightSeatService.findByFlightId(flight.getId());
 
-				if (flightSeat != null) {
-					System.out.println("\n" + flightSeat + "\n");
-				} else {
-					System.out.println("\nThere is no Flight Seat related to flight Id: " + flight.getId() + "\n");
-				}
+				println("\nSeat list: ");
+				printFlightSeat(flightSeats);
+				println("");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

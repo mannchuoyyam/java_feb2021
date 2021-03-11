@@ -21,28 +21,28 @@ import com.mannchuoy.entity.FlightSeat;
  *
  */
 public class FlightSeatDao extends BaseDao<FlightSeat>{
-	final String INSERT_SQL = "INSERT INTO flight_seat(flight_id, first, business, economy) VALUES(?, ?, ?, ?)";
-	final String UPDATE_SQL = "UPDATE flight_seat SET first = ?, business = ?, economy = ? WHERE flight_id = ?";
-	final String DELETE_SQL = "DELETE FROM flight_seat WHERE flight_id = ?";
-	final String GET_ONE = "SELECT * FROM flight_seat WHERE flight_id = ?";
+	final String INSERT_SQL = "INSERT INTO flight_seat(flight_id, seat_number, seat_type, available) VALUES(?, ?, ?, ?)";
+	final String UPDATE_SQL = "UPDATE flight_seat SET flight_id = ?, seat_number = ?, seat_type = ?, available = ? WHERE id = ?";
+	final String DELETE_SQL = "DELETE FROM flight_seat WHERE id = ?";
+	final String GET_ONE = "SELECT * FROM flight_seat WHERE id = ?";
 	final String GET_ALL = "SELECT * FROM flight_seat";
 	
 	public FlightSeatDao(Connection connection) {
 		super(connection);
 	}
 
-	public int add(FlightSeat flightSeat) throws SQLException {
-		return save(INSERT_SQL, new Object[] {flightSeat.getFlightId(), flightSeat.getNumberOfFirstClass(),
-											flightSeat.getNumberOfBusinessClass(), flightSeat.getNumberOfEconomyClass()});
+	public Integer add(FlightSeat flightSeat) throws SQLException {
+		return addAndGetGeneratedKey(INSERT_SQL, new Object[] {flightSeat.getFlightId(), flightSeat.getSeatNumber(),
+											flightSeat.getSeatType(), flightSeat.getAvailable()});
 	}
 	
 	public int update(FlightSeat flightSeat) throws SQLException{
-		return update(UPDATE_SQL, new Object[] { flightSeat.getNumberOfFirstClass(),
-				flightSeat.getNumberOfBusinessClass(), flightSeat.getNumberOfEconomyClass(), flightSeat.getFlightId()});
+		return update(UPDATE_SQL, new Object[] { flightSeat.getFlightId(), flightSeat.getSeatNumber(),
+				flightSeat.getSeatType(), flightSeat.getAvailable(), flightSeat.getId()});
 	}
 	
 	public int delete(FlightSeat flightSeat) throws SQLException{
-		return delete(DELETE_SQL, new Object[] { flightSeat.getFlightId() });
+		return delete(DELETE_SQL, new Object[] { flightSeat.getId() });
 	}
 	
 	public List<FlightSeat> findAll() throws SQLException {
@@ -61,9 +61,10 @@ public class FlightSeatDao extends BaseDao<FlightSeat>{
 		while(resultSet.next()) {
 			FlightSeat flightSeat = new FlightSeat();
 			flightSeat.setFlightId(resultSet.getInt("flight_id"));
-			flightSeat.setNumberOfFirstClass(resultSet.getInt("first"));
-			flightSeat.setNumberOfBusinessClass(resultSet.getInt("business"));
-			flightSeat.setNumberOfEconomyClass(resultSet.getInt("economy"));
+			flightSeat.setId(resultSet.getInt("id"));
+			flightSeat.setSeatNumber(resultSet.getString("seat_number"));
+			flightSeat.setSeatType(resultSet.getInt("seat_type"));
+			flightSeat.setAvailable(resultSet.getBoolean("available"));
 			
 			flightSeats.add(flightSeat);
 		}
@@ -77,11 +78,11 @@ public class FlightSeatDao extends BaseDao<FlightSeat>{
 		
 		while(resultSet.next()) {
 			flightSeat = new FlightSeat();
-			
 			flightSeat.setFlightId(resultSet.getInt("flight_id"));
-			flightSeat.setNumberOfFirstClass(resultSet.getInt("first"));
-			flightSeat.setNumberOfBusinessClass(resultSet.getInt("business"));
-			flightSeat.setNumberOfEconomyClass(resultSet.getInt("economy"));
+			flightSeat.setId(resultSet.getInt("id"));
+			flightSeat.setSeatNumber(resultSet.getString("seat_number"));
+			flightSeat.setSeatType(resultSet.getInt("seat_type"));
+			flightSeat.setAvailable(resultSet.getBoolean("available"));
 		}
 		
 		return flightSeat;

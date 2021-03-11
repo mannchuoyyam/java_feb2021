@@ -12,25 +12,36 @@ package com.mannchuoy.entity;
  *
  */
 public class FlightSeat {
+	private int id;
+
 	private int flightId;
 	
-	private int numberOfFirstClass;
+	private String seatNumber;
 	
-	private int numberOfBusinessClass;
+	private int seatType;
 	
-	private int numberOfEconomyClass;
+	private boolean available;
 
 	public FlightSeat() {
 		
 	}
-	
-	public FlightSeat(int flightId, int numberOfFirstClass, int numberOfBusinessClass, int numberOfEconomyClass) {
+
+	public FlightSeat(int id, int flightId, String seatNumber, int seatType, boolean available) {
+		this.id = id;
 		this.flightId = flightId;
-		this.numberOfFirstClass = numberOfFirstClass;
-		this.numberOfBusinessClass = numberOfBusinessClass;
-		this.numberOfEconomyClass = numberOfEconomyClass;
+		this.seatNumber = seatNumber;
+		this.seatType = seatType;
+		this.available = available;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public int getFlightId() {
 		return flightId;
 	}
@@ -39,36 +50,34 @@ public class FlightSeat {
 		this.flightId = flightId;
 	}
 
-	public int getNumberOfFirstClass() {
-		return numberOfFirstClass;
+	public String getSeatNumber() {
+		return seatNumber;
 	}
 
-	public void setNumberOfFirstClass(int numberOfFirstClass) {
-		this.numberOfFirstClass = numberOfFirstClass;
+	public void setSeatNumber(String seatNumber) {
+		this.seatNumber = seatNumber;
 	}
 
-	public int getNumberOfBusinessClass() {
-		return numberOfBusinessClass;
+	public int getSeatType() {
+		return seatType;
 	}
 
-	public void setNumberOfBusinessClass(int numberOfBusinessClass) {
-		this.numberOfBusinessClass = numberOfBusinessClass;
+	public void setSeatType(int seatType) {
+		this.seatType = seatType;
 	}
 
-	public int getNumberOfEconomyClass() {
-		return numberOfEconomyClass;
+	public boolean getAvailable() {
+		return available;
 	}
 
-	public void setNumberOfEconomyClass(int numberOfEconomyClass) {
-		this.numberOfEconomyClass = numberOfEconomyClass;
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 	@Override
 	public String toString() {
-		return "FlightSeat [flightId=" + flightId + ", numberOfFirstClass=" + numberOfFirstClass
-				+ ", numberOfBusinessClass=" + numberOfBusinessClass + ", numberOfEconomyClass=" + numberOfEconomyClass
-				+ "]";
+		return "FlightSeat [flightId = " + flightId + ", seatNumber = " + seatNumber + ", seatType = " + seatType
+				+ ", available = " + (available ? "Yes" : "No") + "]";
 	}
-
 	
 }

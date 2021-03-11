@@ -9,6 +9,7 @@ package com.mannchuoy.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.mannchuoy.dao.DBConnection;
 import com.mannchuoy.dao.FlightSeatDao;
@@ -25,10 +26,15 @@ public class FlightSeatService {
 		try {
 			connection = DBConnection.getConnection(Boolean.TRUE);
 			FlightSeatDao flightSeatDao = new FlightSeatDao(connection);
-			flightSeatDao.add(flightSeat);
+			Integer id = flightSeatDao.add(flightSeat);
 
-			if(flightSeatDao.findById(flightSeat.getFlightId()) != null){
-				System.out.println("\n" + flightSeat + " has been added.\n");
+			FlightSeat newFlightSeat = null;
+			if(id != null) {
+				newFlightSeat = flightSeatDao.findById(id);
+			}
+			 
+			if( newFlightSeat != null){
+				System.out.println("\n" + newFlightSeat + " has been added.\n");
 			}
 		} catch (SQLException e) {
 			throw e;
@@ -44,7 +50,7 @@ public class FlightSeatService {
 			FlightSeatDao flightSeatDao = new FlightSeatDao(connection);
 			flightSeatDao.update(flightSeat);
 
-			if(flightSeatDao.findById(flightSeat.getFlightId()) != null){
+			if(flightSeatDao.findById(flightSeat.getId()) != null){
 				System.out.println("\n" + flightSeat + " has been updated.\n");
 			}
 		} catch (SQLException e) {
@@ -61,7 +67,7 @@ public class FlightSeatService {
 			FlightSeatDao flightSeatDao = new FlightSeatDao(connection);
 			flightSeatDao.delete(flightSeat);
 
-			if(flightSeatDao.findById(flightSeat.getFlightId()) == null){
+			if(flightSeatDao.findById(flightSeat.getId()) == null){
 				System.out.println("\n" + flightSeat + " has been deleted.\n");
 			}
 		} catch (SQLException e) {
@@ -86,5 +92,22 @@ public class FlightSeatService {
 		}
 		
 		return flightSeat;
+	}
+	
+	public List<FlightSeat> findByFlightId(int id) throws SQLException{
+		List<FlightSeat> flightSeats = null;
+		Connection connection = null;
+		String flightSeatSql = "SELECT * FROM flight_seat WHERE flight_id = ?";
+		try {
+			connection = DBConnection.getConnection(Boolean.TRUE);
+			FlightSeatDao flightSeatDao = new FlightSeatDao(connection);
+			flightSeats = flightSeatDao.read(flightSeatSql, new Object[] { id });
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			connection.close();
+		}
+		
+		return flightSeats;
 	}
 }

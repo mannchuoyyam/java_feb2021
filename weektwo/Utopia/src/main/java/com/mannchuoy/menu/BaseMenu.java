@@ -3,9 +3,11 @@
  */
 package com.mannchuoy.menu;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import com.mannchuoy.entity.SeatType;
 import com.mannchuoy.input.UserInput;
 
 /**
@@ -73,4 +75,11 @@ public abstract class BaseMenu {
 		return option;
 	}
 
+	public static void printSeatType(List<SeatType> seatTypes) {
+		int index = 1;
+		for(SeatType seatType : seatTypes) {
+			System.out.println(index + ") " + seatType.getSeatClass());
+			index++;
+		}
+	}
 }
