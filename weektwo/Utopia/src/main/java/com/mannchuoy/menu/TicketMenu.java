@@ -94,7 +94,7 @@ public class TicketMenu extends BaseMenu {
 				// get flight seat
 				List<FlightSeat> flightSeats = flightSeatService.findByFlightId(flight.getId());
 				if (flightSeats == null || flightSeats.size() == 0) {
-					println("There is no seat available");
+					println("\nThere is no seat available\n");
 					return;
 				}
 				FlightSeat flightSeat = getSelectedFlightSeat(flightSeats);
@@ -102,7 +102,7 @@ public class TicketMenu extends BaseMenu {
 				// get passenger
 				List<Passenger> passengers = passengerService.findAllByFlightId(flight.getId());
 				if (passengers == null || passengers.size() == 0) {
-					println("There is no passengers");
+					println("\nThere is no passengers\n");
 					return;
 				}
 				Passenger passenger = getSelectedPassenger(passengers);

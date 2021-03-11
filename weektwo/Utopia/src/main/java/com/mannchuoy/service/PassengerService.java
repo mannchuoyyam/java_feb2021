@@ -141,14 +141,14 @@ public class PassengerService {
 				+ "JOIN ("
 				+ "SELECT a.flight_id, a.booking_id, p.id, p.given_name, p.family_name, p.dob, p.gender, p.address "
 				+ "FROM flight_bookings a JOIN passenger p ON a.booking_id = p.booking_id"
-				+ ") d ON f.id = d.flight_id";
+				+ ") d ON f.id = d.flight_id WHERE f.id = ?";
 		
 		Connection connection = null;
 		List<Passenger> passengers = null;
 		try {
 			connection = DBConnection.getConnection(Boolean.TRUE);
 			PassengerDao passengerDao = new PassengerDao(connection);
-			passengers = passengerDao.read(sql, new Object[] {});
+			passengers = passengerDao.read(sql, new Object[] {flightId});
 		} catch (SQLException e) {
 			throw e;
 		} finally {
