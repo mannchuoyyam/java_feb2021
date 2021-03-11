@@ -169,7 +169,7 @@ public class PassengerUserInput extends BaseUserInput{
 		} else if (lastName.toLowerCase().equals("n/a")) {
 			newPassenger.setFamilyName(passenger.getFamilyName());
 		}else {
-			newPassenger.setGivenName(lastName);
+			newPassenger.setFamilyName(lastName);
 		}
 		
 		return true;

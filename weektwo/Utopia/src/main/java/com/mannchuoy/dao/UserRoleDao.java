@@ -1,4 +1,8 @@
 /**
+ *  Java_feb2021 Corhot
+ *  Week 2 Evaluation
+ *  Assignment: Utopia Airline
+ *  Date: 3/6/21 - 3/8/21
  * 
  */
 package com.mannchuoy.dao;
@@ -17,28 +21,37 @@ import com.mannchuoy.entity.UserRole;
  */
 public class UserRoleDao extends BaseDao<UserRole> {
 	
+	final String INSERT_SQL = "INSERT INTO user_role(name) VALUE(?)";
+	final String UPDATE_SQL = "UPDATE user_role SET name = ? WHERE id = ?";
+	final String DELETE_SQL = "DELETE FROM user_role WHERE id = ?";
+	final String GET_ONE = "SELECT * FROM user_role WHERE id = ?";
+	final String GET_ALL = "SELECT * FROM user_role";
+	
 	public UserRoleDao(Connection connection) {
 		super(connection);
 	}
 
-	public int addUserRole(UserRole userRole) throws SQLException {
-		return save("INSERT INTO user_role(name) VALUES(?)", new Object[] {userRole.getName()});
+	public int add(UserRole userRole) throws SQLException {
+		return save(INSERT_SQL, new Object[] {userRole.getName()});
 	}
 	
-	public int updateAirport(UserRole userRole) throws SQLException{
-		return update("UPDATE user_role SET name = ? WHERE id = ?",
-				new Object[] {userRole.getName(), userRole.getId()});
+	public int update(UserRole userRole) throws SQLException{
+		return update(UPDATE_SQL, new Object[] {userRole.getName(), userRole.getId()});
 	}
 	
-	public int deleteAirport(UserRole userRole) throws SQLException{
-		return delete("DELETE FROM user_role WHERE id = ?",
-				new Object[] {userRole.getId()});
+	public int delete(UserRole userRole) throws SQLException{
+		return delete(DELETE_SQL, new Object[] {userRole.getId()});
 	}
 	
-	public List<UserRole> listAirport() throws SQLException {
-		return read("SELECT * FROM user_role", new Object[] {});
+	public List<UserRole> findAll() throws SQLException {
+		return read(GET_ALL, new Object[] {});
 	}
 
+	// return null if not found
+	public UserRole findById(int id) throws SQLException {
+		return findById(GET_ONE, new Object[] {id});
+	}
+	
 	@Override
 	public List<UserRole> populateData(ResultSet result) throws SQLException {
 		List<UserRole> userRoles = new ArrayList<UserRole>();

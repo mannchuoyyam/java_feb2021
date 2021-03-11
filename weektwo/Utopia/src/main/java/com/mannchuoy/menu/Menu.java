@@ -20,6 +20,7 @@ public class Menu extends BaseMenu {
 	FlightSeatMenu flightSeatMenu;
 	TicketMenu ticketMenu;
 	PassengerMenu passengerMenu;
+	EmployeeMenu employeeMenu;
 	
 	public Menu(Scanner scanner) {
 		super(scanner);
@@ -28,6 +29,7 @@ public class Menu extends BaseMenu {
 		flightSeatMenu = new FlightSeatMenu(scanner);
 		ticketMenu = new TicketMenu(scanner);
 		passengerMenu = new PassengerMenu(scanner);
+		employeeMenu = new EmployeeMenu(scanner);
 	}
 
 	public Boolean showMainMenu() {
@@ -93,7 +95,7 @@ public class Menu extends BaseMenu {
 				passengerMenu.showPassengerMenu();
 				break;
 			case 6:
-				println("Employee menu not implement yet");
+				employeeMenu.showEmployeeMenu();
 				break;
 			case 7:
 				println("Cancel Ticket menu not implement yet");
