@@ -9,6 +9,7 @@ package com.mannchuoy.menu;
 
 import java.util.Scanner;
 
+
 /**
  * @author Mannchuoy Yam
  *
@@ -17,12 +18,16 @@ public class Menu extends BaseMenu {
 	FlightMenu flightMenu;
 	AirportMenu airportMenu;
 	FlightSeatMenu flightSeatMenu;
+	TicketMenu ticketMenu;
+	PassengerMenu passengerMenu;
 	
 	public Menu(Scanner scanner) {
 		super(scanner);
 		flightMenu = new FlightMenu(scanner);
 		airportMenu = new AirportMenu(scanner);
 		flightSeatMenu = new FlightSeatMenu(scanner);
+		ticketMenu = new TicketMenu(scanner);
+		passengerMenu = new PassengerMenu(scanner);
 	}
 
 	public Boolean showMainMenu() {
@@ -61,7 +66,7 @@ public class Menu extends BaseMenu {
 	}
 	
 	private void showAdmininstratorMainMenu() {
-		String[] adminMainMenus = { "Flights", "Seats", "Tickets and Passengers", "Airports", "Travelers", "Employees",
+		String[] adminMainMenus = { "Flights", "Seats", "Tickets", "Airports", "Passenger / Travelers", "Employees",
 				"Over-ride Trip Cancellation for a ticket", "Quit to previous" };
 
 		int option = 0;
@@ -79,13 +84,13 @@ public class Menu extends BaseMenu {
 				flightSeatMenu.showFlightSeatMenu();
 				break;
 			case 3:
-				println("Tickets and Passenger menu not implement yet");
+				ticketMenu.showTicketMenu();
 				break;
 			case 4:
 				airportMenu.showAirportMenus();
 				break;
 			case 5:
-				println("Traveler menu not implement yet");
+				passengerMenu.showPassengerMenu();
 				break;
 			case 6:
 				println("Employee menu not implement yet");

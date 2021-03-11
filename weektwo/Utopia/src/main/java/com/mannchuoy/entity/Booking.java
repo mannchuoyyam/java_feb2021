@@ -6,6 +6,7 @@ public class Booking {
 	private int id;
 	private Boolean isActive;
 	private String confirmationCode;
+	
 	private BookingPayment bookingPayment;
 	private BookingAgent bookingAgent;
 	private BookingUser bookingUser;

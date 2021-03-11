@@ -6,7 +6,6 @@ package com.mannchuoy.menu;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import com.mannchuoy.input.BaseUserInput;
 import com.mannchuoy.input.UserInput;
 
 /**
