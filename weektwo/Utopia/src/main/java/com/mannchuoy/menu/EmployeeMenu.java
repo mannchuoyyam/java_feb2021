@@ -100,7 +100,7 @@ public class EmployeeMenu extends BaseMenu {
 			List<User> users = employeeService.findAll();
 			if (users != null && users.size() > 0) {
 				User user = getSelectedUser(users);
-				employeeService.update(user);
+				employeeService.delete(user);
 
 			}
 		} catch (SQLException e) {
@@ -124,20 +124,13 @@ public class EmployeeMenu extends BaseMenu {
 	private User getSelectedUser(List<User> users) throws SQLException {
 		printUsers(users);
 
-		// user pick one to update
-		int optionStartAt = 1;
-		int option = userInput.getFlightUpdateOption(optionStartAt, users.size());
-
-		// adjust to 0 base index
-		int selectedIndex = option - 1;
-
-		return users.get(selectedIndex);
+		return employeeUserInput.getSelectedUser(users);
 	}
 	
 	private void printUsers(List<User> users) {
 		int index = 1;
 		for (User user : users) {
-			println(index + ")" + user.getFamilyName() + " " + user.getFamilyName());
+			println(index + ")" + user.toString());
 			index++;
 		}
 	}

@@ -24,8 +24,8 @@ public class UserDao extends BaseDao<User> {
 	final String INSERT_SQL = "INSERT INTO user(role_id, given_name, family_name, username, email, password, phone) "
 							+ "VALUE(?, ?, ?, ?, ?, ?, ?)";
 
-	final String UPDATE_SQL = "UPDATE user SET role_id = ?, given_name = ?, family_name + ?, "
-							+ "username + ?, email = ?, password = ?, phone = ? WHERE id = ?";
+	final String UPDATE_SQL = "UPDATE user SET role_id = ?, given_name = ?, family_name = ?, "
+							+ "username = ?, email = ?, password = ?, phone = ? WHERE id = ?";
 	
 	final String DELETE_SQL = "DELETE FROM user WHERE id = ?";
 	

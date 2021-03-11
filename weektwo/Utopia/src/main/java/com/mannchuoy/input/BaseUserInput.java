@@ -54,4 +54,21 @@ public abstract class BaseUserInput {
 		
 		return number;
 	}
+	
+	public int selectAnOption(int optionStartAt, int optionEndAt, String prompt) {
+		int option = 0;
+		while (option == 0) {
+			print(prompt + " (" + optionStartAt + " - " + optionEndAt + "): ");
+			try {
+				option = scanner.nextInt();
+				if (option < optionStartAt || option > optionEndAt) {
+					option = 0;
+					println("Please choose the from the options above");
+				}
+			} catch (NoSuchElementException e) {
+				flushBadInput();
+			}
+		}
+		return option;
+	}
 }

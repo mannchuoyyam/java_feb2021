@@ -26,17 +26,14 @@ public class EmployeeService {
 		try {
 			connection = DBConnection.getConnection(Boolean.FALSE);
 			UserDao userDao = new UserDao(connection);
-						
-			//get role id for employee
-			int employeeRole = 1;
-			user.setRoleId(employeeRole);
 			
 			Integer id = userDao.add(user);
 			
 			connection.commit();
 			
-			if(userDao.findById(id) != null){
-				System.out.println("\n" + user + " has been added.\n");
+			User newUser = userDao.findById(id); 
+			if(newUser != null){
+				System.out.println("\n" + newUser + " has been added.\n");
 			}
 		} catch (SQLException e) {
 			connection.rollback();
